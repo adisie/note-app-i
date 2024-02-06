@@ -21,7 +21,7 @@ const Users = () => {
     // usersSlice
     const usersFlag = useSelector(selectUsersFlag)
   return (
-    <div>
+    <div className="flex-grow flex justify-center pt-5">
         {
             usersFlag === "LOGIN" 
             ?

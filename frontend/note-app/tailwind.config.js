@@ -13,7 +13,21 @@ module.exports = {
       'screen-level-6': '1050px',
       'screen-level-7': '1200px',
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        "anti-frame": {
+          "0%": {
+            transform: 'rotate(0deg)',
+          },
+          "100%": {
+            transform: 'rotate(-360deg)',
+          },
+        },
+      },
+      animation: {
+        'anit-spin': "anti-frame 1s linear infinite"
+      }
+    },
   },
   plugins: [],
 }

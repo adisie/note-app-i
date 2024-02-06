@@ -8,9 +8,9 @@ import HomeLeftSideBar from "./sub-home/HomeLeftSideBar"
 // users
 // Users
 import Users from "../users/Users"
-// posts
-// Posts
-import Posts from "../posts/Posts"
+// notes
+// Notes
+import Notes from "../notes/Notes"
 // profiles
 // Profiles
 import Profiles from '../profiles/Profiles'
@@ -23,7 +23,7 @@ const Home = () => {
         <div className="flex-grow max-w-[820px] mx-auto px-3 flex">
             <HomeLeftSideBar />
             <Routes>
-                <Route index element = {<Posts />} />
+                <Route index element = {<Notes />} />
                 <Route path = "users" element = {<Users />} />
                 <Route path = "profiles" element = {<Profiles />} />
             </Routes>
