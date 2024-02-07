@@ -25,7 +25,7 @@ const HomeLeftSideBar = () => {
   const dispatch = useDispatch()
 
   return (
-    <div className="flex-grow max-w-[180px] text-xs text-emerald-700 font-serif">
+    <div className="w-[20%] text-xs text-emerald-700 font-serif">
       {/* authenticated side bar */}
       <div className="pr-1">
         <ul className="flex flex-col">

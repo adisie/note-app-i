@@ -11,7 +11,7 @@ import Home from "./features/home/Home"
 // App
 const App = () => {
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen h-screen flex flex-col overflow-hidden">
       <Header />
       <Home />
     </div>

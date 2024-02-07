@@ -65,7 +65,7 @@ const NewNoteForm = () => {
   return (
     <div className="flex items-center">
         <div className="relative">
-            <motion.div className="absolute bottom-0 left-3 text-xs text-emerald-900 bg-white p-1 rounded-sm font-serif" 
+            <motion.div className="absolute bottom-0 left-3 text-xs text-emerald-900 bg-gray-300 p-1 rounded-sm font-serif" 
                 drag
                 dragSnapToOrigin
             >
@@ -96,7 +96,7 @@ const NewNoteForm = () => {
                     </label>
                     <textarea name="note" placeholder="note..." 
                         id="new-note-textarea" 
-                        className="focus:outline-none bg-transparent w-[230px] h-[18px] resize-none" 
+                        className="focus:outline-none bg-transparent w-[230px] h-[18px] resize-none max-h-[450px]" 
                         value={note} 
                         onChange={e=>setNote(e.target.value)}  
                         onKeyUp={adjustTextAreaHeight}        

@@ -6,3 +6,39 @@
 #new-note-textarea::-webkit-scrollbar {
     display: none;
 }
+
+#new-comment-textarea::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* notes-list-con */
+#notes-list-con-id::-webkit-scrollbar {
+    width: 3px;
+}
+
+#notes-list-con-id::-webkit-scrollbar-track {
+    background: rgb(235, 234, 234);
+    border-radius: 3px;
+}
+
+#notes-list-con-id::-webkit-scrollbar-thumb {
+    background: rgb(187, 187, 187);
+    border-radius: 3px;
+}
+
+/* comments-list-con */
+
+#comments-list-con::-webkit-scrollbar {
+    width: 3px;
+}
+
+#comments-list-con::-webkit-scrollbar-track {
+    background: rgb(235, 234, 234);
+    border-radius: 3px;
+}
+
+#comments-list-con::-webkit-scrollbar-thumb {
+    background: rgb(187, 187, 187);
+    border-radius: 3px;
+}

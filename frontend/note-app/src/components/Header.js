@@ -30,7 +30,7 @@ const Header = () => {
           <div className="flex items-center">
             <NavLink className="flex items-center text-xl text-gray-400 font-black" to={"/"}>
               <RiQuillPenFill className="text-2xl"/>
-              <span>note<span className="text-gray-200">App</span></span>
+              <span>note<span className="text-gray-200">Share</span></span>
             </NavLink>
           </div>
         </div>

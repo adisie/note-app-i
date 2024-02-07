@@ -14,6 +14,9 @@ import Notes from "../notes/Notes"
 // profiles
 // Profiles
 import Profiles from '../profiles/Profiles'
+// utils
+// PrivateRoutes
+import PrivateRoutes from '../../utils/PrivateRoutes'
 
 // main
 // Home
@@ -25,7 +28,9 @@ const Home = () => {
             <Routes>
                 <Route index element = {<Notes />} />
                 <Route path = "users" element = {<Users />} />
-                <Route path = "profiles" element = {<Profiles />} />
+                <Route element = {<PrivateRoutes />} >
+                  <Route path = "profiles" element = {<Profiles />} />
+                </Route>
             </Routes>
         </div>
     </div>
