@@ -1,10 +1,13 @@
 import { NavLink } from "react-router-dom"
 import {useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
   setUsersFlag,
+  selectUser,
+  logout,
 } from '../../users/usersSlice'
 
 // icons
@@ -21,6 +24,9 @@ import { IoMdSettings } from "react-icons/io"
 // main
 // HomeLeftSideBar
 const HomeLeftSideBar = () => {
+  // states from slices
+  // usersSlice
+  const user = useSelector(selectUser)
   // hooks
   const dispatch = useDispatch()
 
@@ -40,7 +46,7 @@ const HomeLeftSideBar = () => {
           </li>
 
           {
-            !true
+            user
             ?
             <>
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
@@ -69,7 +75,11 @@ const HomeLeftSideBar = () => {
                   <span>Settings</span>
                 </NavLink>
               </li>
-              <div className="mt-3 flex items-center justify-center bg-emerald-700 rounded-sm text-gray-300 py-1 cursor-pointer transition-all ease-in-out duration-300 hover:opacity-[.75]">
+              <div className="mt-3 flex items-center justify-center bg-emerald-700 rounded-sm text-gray-300 py-1 cursor-pointer transition-all ease-in-out duration-300 hover:opacity-[.75]" 
+                onClick={()=>{
+                  dispatch(logout())
+                }}
+              >
                 <span>Logout</span>
               </div>
             </>

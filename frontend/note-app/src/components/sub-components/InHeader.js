@@ -1,20 +1,40 @@
 import {NavLink} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 
-// default user profile image
-import profileImage from '../../assets/images/profiles/male-profile-3.jpg'
+// actions from slices
+// usersSlice
+import {
+  logout,
+} from '../../features/users/usersSlice'
+
+// sub-users
+// GetUsername
+import GetUsername from '../../features/users/sub-users/GetUsername'
+// sub-profiles
+// GetProfile
+import GetProfile from '../../features/profiles/sub-profiles/GetProfile'
 // main
 // InHeader
-const InHeader = () => {
+const InHeader = ({user}) => {
+  // hooks 
+  const dispatch = useDispatch()
+
   return (
     <div className="flex items-center">
         <NavLink 
           className="flex items-center" 
           to={"/profiles"}
           >
-            <span className="text-gray-300 mr-1">username</span>
-            <img className="w-[28px] h-[28px] rounded-full" src={profileImage} alt="" />
+            <span className="text-gray-300 mr-1">
+              <GetUsername userId={user._id} />
+            </span>
+            <GetProfile userId={user._id}/>
         </NavLink>
-        <button className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300">logout</button>
+        <button className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
+          onClick={()=>{
+            dispatch(logout())
+          }}
+        >logout</button>
     </div>
   )
 }

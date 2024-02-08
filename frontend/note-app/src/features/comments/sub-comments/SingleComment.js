@@ -1,34 +1,58 @@
 import {NavLink} from 'react-router-dom'
+import {formatDistanceToNow} from 'date-fns'
+import { useSelector } from 'react-redux'
 
-// test-image
-import testImage from '../../../assets/images/test/gonder1.jpg'
+// actions from slices
+// usersSlice
+import {
+  selectUser,
+} from '../../users/usersSlice'
 
 // icons
 // delete 
 import { MdDeleteOutline } from "react-icons/md"
 
+// sub-users
+// GetUsername
+import GetUsername from '../../users/sub-users/GetUsername'
+// sub-profiles
+// GetProfile
+import GetProfile from '../../profiles/sub-profiles/GetProfile'
+
 // main
 // SingleComment
-const SingleComment = () => {
+const SingleComment = ({comment}) => {
+  // states from slices
+  // usersSlice
+  const user = useSelector(selectUser)
+
   return (
-    <div className="mb-3 py-1 text-xs text-emerald-900 font-serif">
+    <div className="mb-3 py-1 text-xs text-emerald-900 font-serif border-b border-emerald-700 border-opacity-[.13] ml-3">
         <div className="ml-5 max-w-[450px]">
             <p className="text-justify">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil eum, hic sapiente dolore aliquid in, deserunt eligendi quod iusto quidem repellendus, eaque consequuntur inventore unde ullam. Iste numquam enim at, consequatur placeat aperiam fugiat quibusdam.
+                {comment.comment}
             </p>
         </div>
         {/* author-profile and username */}
-        <div className="flex items-center">
+        <div className="flex items-center my-1">
           {/* profile and name */}
             <NavLink className="flex items-center mr-3">
-              <img src={testImage} alt="" className="w-[22px] h-[22px] rounded-full"/>
-              <span className="mx-1">username</span>
+              <GetProfile userId={comment.authorId}/>
+              <span className="mx-1">
+                <GetUsername userId={comment.authorId}/>
+              </span>
             </NavLink>
             <div className="flex items-center">
-              <button className="text-xl mx-1 opacity-[.75]">
-                <MdDeleteOutline />
-              </button>
-              <span>date</span>
+              {
+                user?._id === comment.authorId 
+                ?
+                <button className="text-xl mx-1 opacity-[.75]">
+                  <MdDeleteOutline />
+                </button>
+                :
+                <></>
+              }
+              <span>{formatDistanceToNow(new Date(comment.createdAt),{addSuffix: true})}</span>
             </div>
         </div>
     </div>

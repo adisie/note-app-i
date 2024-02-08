@@ -1,4 +1,11 @@
 import {NavLink} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
+// actions from slices
+// usersSlice
+import {
+  selectUser,
+} from '../features/users/usersSlice'
 
 // icons
 // menu
@@ -15,6 +22,10 @@ import OutHeader from './sub-components/OutHeader'
 // main
 // Header
 const Header = () => {
+  // states from slices
+  // usersSlice
+  const user = useSelector(selectUser)
+
   return (
     <header className="bg-emerald-700 text-xs text-gray-100 font-serif">
       <div className="max-w-[820px] mx-auto px-3 py-[.35rem] flex items-center justify-between">
@@ -37,9 +48,9 @@ const Header = () => {
         {/* log-container */}
         <div>
           {
-            !true 
+            user 
             ?
-            <InHeader />
+            <InHeader user={user}/>
             :
             <OutHeader />
           }

@@ -1,10 +1,14 @@
-import {useDispatch} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // commentsSlice
 import {
   setIsComment,
 } from './commentsSlice'
+// usersSlice
+import {
+  selectUser,
+} from '../users/usersSlice'
 
 // sub-comments
 // CommentList
@@ -19,6 +23,10 @@ import { RiPictureInPictureExitFill } from "react-icons/ri"
 // main
 // Comments
 const Comments = () => {
+  // states from slices
+  // usersSlice
+  const user = useSelector(selectUser)
+
   // hooks
   const dispatch = useDispatch()
 
@@ -28,7 +36,9 @@ const Comments = () => {
         <RiPictureInPictureExitFill />
       </button>
       <CommentList />
-      <NewComment />
+      {
+        user && <NewComment />
+      }
     </div>
   )
 }

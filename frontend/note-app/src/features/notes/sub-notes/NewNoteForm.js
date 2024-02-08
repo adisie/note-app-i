@@ -1,5 +1,13 @@
 import {useState} from 'react'
 import {motion} from 'framer-motion'
+import {useSelector,useDispatch} from 'react-redux'
+
+// actions from sliecs
+// notesSlice
+import {
+    newNote,
+    selectIsNotePending,
+} from '../notesSlice'
 
 // icons
 // cancel
@@ -9,6 +17,10 @@ import { MdOutlineAttachFile } from "react-icons/md"
 // send
 import { GrSend } from "react-icons/gr"
 
+// sub-notes
+// NoteSpinner
+import NoteSpinner from './NoteSpinner'
+
 // main
 // NewNoteForm
 const NewNoteForm = () => {
@@ -17,6 +29,13 @@ const NewNoteForm = () => {
     const [note,setNote] = useState('')
     // file
     const [file,setFile] = useState(null)
+
+    // states from slices
+    // notesSlice
+    const isNotePending = useSelector(selectIsNotePending)
+
+    // hooks
+    const dispatch = useDispatch()
 
     // adjust text-area height
     const adjustTextAreaHeight = e => {
@@ -49,10 +68,13 @@ const NewNoteForm = () => {
         if(note.trim() && file){
             formData.append('note',note)
             formData.append('file',file)
+            dispatch(newNote(formData))
         }else if(note.trim() && !file){
             formData.append('note',note)
+            dispatch(newNote(formData))
         }else if(!note.trim() && file){
             formData.append('file',file)
+            dispatch(newNote(formData))
         }else{
             console.log('empty form')
         }
@@ -62,12 +84,16 @@ const NewNoteForm = () => {
         textaea.focus()
         fileNameDisplayer.textContent = ''
     }
+
+    if(isNotePending){
+        return <NoteSpinner />
+    }
   return (
     <div className="flex items-center">
         <div className="relative">
             <motion.div className="absolute bottom-0 left-3 text-xs text-emerald-900 bg-gray-300 p-1 rounded-sm font-serif" 
-                drag
-                dragSnapToOrigin
+                drag="x"
+                // dragSnapToOrigin
             >
                 <div className="flex items-center justify-between">
                     <span id="file-name-span"></span>

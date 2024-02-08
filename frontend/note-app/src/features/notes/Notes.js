@@ -1,6 +1,22 @@
-import {useSelector} from 'react-redux'
+import { useEffect } from 'react'
+import {useSelector,useDispatch} from 'react-redux'
+
+// global constants
+import {
+  SOCKET,
+} from '../../config'
 
 // actions from slices
+// notesSlice
+import {
+  allNotes,
+  newNoteEvent,
+  deleteNoteEvent,
+} from './notesSlice'
+// usersSlice
+import {
+  selectUser,
+} from '../users/usersSlice'
 // commentsSlice
 import {
   selectIsComment,
@@ -22,11 +38,38 @@ const Notes = () => {
   // states from slices
   // commentsSlice
   const isComment = useSelector(selectIsComment)
+  // usersSlice
+  const user = useSelector(selectUser)
+
+  // hooks
+  const dispatch = useDispatch()
+
+  // effects
+  // all notes
+  useEffect(()=>{
+    dispatch(allNotes())
+  },[])
+
+  // new note
+  useEffect(()=>{
+    SOCKET.on('newNoteEvent',note=>{
+      dispatch(newNoteEvent(note))
+    })
+  },[])
+
+  // delete note
+  useEffect(()=>{
+    SOCKET.on('deleteNoteEvent',_id=>{
+      dispatch(deleteNoteEvent(_id))
+    })
+  },[])
 
   return (
     <div className="flex-grow w-[75%] flex flex-col relative">
       <NotesList />
-      <NewNoteForm />
+      {
+        user && <NewNoteForm />
+      }
       {
         isComment 
         ?

@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import {useDispatch} from 'react-redux'
+import { useState, useEffect } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 // actions from slices
 // usersSlice
 import {
   setUsersFlag,
+  login,
+  selectIsUserPending,
+  selectErrors,
+  selectUser,
 } from '../usersSlice'
 
 // sub-users
@@ -20,8 +25,25 @@ const Login = () => {
   // password
   const [password,setPassword] = useState('')
 
+  // states from slices
+  // usersSlice
+  const isUserPending = useSelector(selectIsUserPending)
+  const errors = useSelector(selectErrors)
+  const user = useSelector(selectUser)
+
   // hooks
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // effects
+  // redirection on login
+  useEffect(()=>{
+    if(user){
+      navigate('/')
+    }
+  },[user])
+
+
 
   // validators
   // usernmae
@@ -68,14 +90,14 @@ const Login = () => {
       errorUsername.textContent = 'username required'
       errorPassword.textContent = ''
     }else if(!errorUsername.textContent && !errorPassword.textContent){
-      console.log('can')
+      dispatch(login({username,password}))
     }else {
       console.log('cant')
     }
     }
 
     // spinner
-    if(!true){
+    if(isUserPending){
       return <UsersSpinner />
     }
 
@@ -97,7 +119,7 @@ const Login = () => {
                 onKeyUp={usernameValidator}
               />
             </div>
-            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="login-username-error"></div>
+            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="login-username-error">{errors?.username}</div>
           </div>
 
           
@@ -112,7 +134,7 @@ const Login = () => {
                 onKeyUp={passwordValidator}
               />
             </div>
-            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="login-password-error"></div>
+            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="login-password-error">{errors?.password}</div>
           </div>
 
 

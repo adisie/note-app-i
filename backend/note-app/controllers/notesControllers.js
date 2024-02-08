@@ -28,8 +28,8 @@ const allNotes = async (req,res) => {
 // newNote
 const newNote = async (req,res) => {
     try{
-        const {note} = req.body 
-        const filePath = req.file.path 
+        const note = req.body?.note 
+        const filePath = req.file?.path 
         const authorId = req.user._id 
         const newNote = await Note.create({authorId,note,filePath})
         res.status(200).json({
