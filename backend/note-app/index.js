@@ -51,6 +51,21 @@ io.on('connection',socket=>{
     socket.on('deleteNote',_id=>{
         io.emit('deleteNoteEvent',_id)
     })
+
+    // comments
+    // new comment
+    socket.on('newComment',comment=>{
+        io.emit('newCommentEvent',comment)
+    })
+    // delete comment
+    socket.on('deleteComment',comment=>{
+        io.emit('deleteCommentEvent',comment)
+    })
+
+    // new user signup
+    socket.on('userSignup',user=>{
+        io.emit('userSignupEvent',user)
+    })
 })
 
 

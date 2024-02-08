@@ -1,6 +1,11 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
+// global constants
+import {
+    SOCKET,
+} from '../../config'
+
 // local user
 const localUser = JSON.parse(localStorage.getItem('user'))
 
@@ -13,10 +18,21 @@ const initialState = {
     errors: null,
 }
 
+
 // all users
 export const allUsers = createAsyncThunk('users/allUsers',async () => {
     try{
         const response = await axios.get('/api/users/all-users')
+        return response.data
+    }catch(err){
+        return err.response.data
+    }
+})
+
+// signup
+export const signup = createAsyncThunk('users/signup',async data => {
+    try{
+        const response = await axios.post('/api/users/signup',data)
         return response.data
     }catch(err){
         return err.response.data
@@ -51,6 +67,17 @@ const usersSlice = createSlice({
         setUsersFlag: (state,action) => {
             state.usersFlag = action.payload
         },
+        userSignupEvent: (state,action) => {
+            let users = [...state.users,action.payload]
+            let filteredUsers = [] 
+            users.forEach(user=>{
+                let isUserExist = filteredUsers.find(us=>us._id === user._id)
+                if(!isUserExist){
+                    filteredUsers.push(user)
+                }
+            })
+            state.users = filteredUsers
+        },
     },
     extraReducers: builder => {
         builder
@@ -65,6 +92,27 @@ const usersSlice = createSlice({
             // rejected
             .addCase(allUsers.rejected, state => {
                 console.log('all users rejected case')
+            })
+            // signup
+            // pending
+            .addCase(signup.pending,state=>{
+                state.isUserPending = true
+            })
+            .addCase(signup.fulfilled,(state,action)=>{
+                state.isUserPending = false
+                if(action.payload.user){
+                    state.user = action.payload.user 
+                    state.errors = null 
+                    localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    SOCKET.emit('userSignup',action.payload.user)
+                }
+                if(action.payload.errors){
+                    state.errors = action.payload.errors 
+                }
+            })
+            // rejected
+            .addCase(signup.rejected,state=>{
+                state.isUserPending = false
             })
             // login
             // pending
@@ -103,6 +151,7 @@ const usersSlice = createSlice({
 // actions
 export const {
     setUsersFlag,
+    userSignupEvent,
 } = usersSlice.actions
 
 // selectors

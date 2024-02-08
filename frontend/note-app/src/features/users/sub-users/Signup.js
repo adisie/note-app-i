@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import {useDispatch} from 'react-redux'
+import { useState,useEffect } from 'react'
+import {useDispatch,useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 // actions from slices
 // usersSlice
 import {
   setUsersFlag,
+  selectIsUserPending,
+  signup,
+  selectUser,
+  selectErrors,
 } from '../usersSlice'
 
 // sub-users
@@ -24,8 +29,24 @@ const Signup = () => {
   // password2
   const [password2,setPassword2] = useState('')
 
+  // states from slices
+
+  // usersSlice
+  const isUserPending = useSelector(selectIsUserPending)
+  const errors = useSelector(selectErrors)
+  const user = useSelector(selectUser)
+
   // hooks
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // effects
+  // redirect after signup
+  useEffect(()=>{
+    if(user){
+      navigate('/profiles')
+    }
+  },[user])
 
   // validators
   // usernmae
@@ -158,14 +179,14 @@ const Signup = () => {
       errorPassword.textContent = ''
       errorPassword2.textContent = ''
     }else if(!errorUsername.textContent && !errorEmail.textContent && !errorPassword.textContent && !errorPassword2.textContent){
-      console.log('can')
+      dispatch(signup({username,email,password}))
     }else {
       console.log('cant')
     }
     }
 
     // spinner
-    if(!true){
+    if(isUserPending){
       return <UsersSpinner />
     }
 
@@ -187,7 +208,7 @@ const Signup = () => {
                 onKeyUp={usernameValidator}
               />
             </div>
-            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-username-error"></div>
+            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-username-error">{errors?.username}</div>
           </div>
 
           {/* input-controll email */}
@@ -200,7 +221,7 @@ const Signup = () => {
                 onKeyUp={emailValidator} 
               />
             </div>
-            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-email-error"></div>
+            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-email-error">{errors?.email}</div>
           </div>
 
           {/* input-controll password */}
@@ -226,7 +247,7 @@ const Signup = () => {
                 onKeyUp={password2Validator} 
               />
             </div>
-            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-password2-error"></div>
+            <div className="flex items-center justify-center text-red-700 text-[.75rem]" id="signup-password2-error">{errors?.password}</div>
           </div>
 
           {/* button */}

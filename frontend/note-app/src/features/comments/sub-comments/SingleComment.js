@@ -1,12 +1,17 @@
 import {NavLink} from 'react-router-dom'
 import {formatDistanceToNow} from 'date-fns'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
   selectUser,
 } from '../../users/usersSlice'
+// commentsSlice
+import {
+  deleteComment,
+  selectIsCommentDeleting,
+} from '../commentsSlice'
 
 // icons
 // delete 
@@ -25,6 +30,11 @@ const SingleComment = ({comment}) => {
   // states from slices
   // usersSlice
   const user = useSelector(selectUser)
+  // commentsSlice
+  const isCommentDeleting = useSelector(selectIsCommentDeleting)
+
+  // hooks
+  const dispatch = useDispatch()
 
   return (
     <div className="mb-3 py-1 text-xs text-emerald-900 font-serif border-b border-emerald-700 border-opacity-[.13] ml-3">
@@ -46,9 +56,21 @@ const SingleComment = ({comment}) => {
               {
                 user?._id === comment.authorId 
                 ?
-                <button className="text-xl mx-1 opacity-[.75]">
-                  <MdDeleteOutline />
-                </button>
+                <>
+                {
+                  isCommentDeleting 
+                  ?
+                  <div className='mr-1 w-[12px] h-[12px] rounded-full border-2 border-emerald-700 border-r-transparent animate-spin'></div>
+                  :
+                  <button className="text-xl mx-1 opacity-[.75]" 
+                    onClick={()=>{
+                      dispatch(deleteComment(comment._id))
+                    }}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+                }
+                </>
                 :
                 <></>
               }

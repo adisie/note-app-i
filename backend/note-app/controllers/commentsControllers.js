@@ -70,7 +70,8 @@ const deleteComment = async (req,res) => {
         }
         await comment.deleteOne()
         res.status(200).json({
-            message: 'comment deleted'
+            message: 'comment deleted',
+            _id,
         })
     }catch(err){
         res.status(400).json({

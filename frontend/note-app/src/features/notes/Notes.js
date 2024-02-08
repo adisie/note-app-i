@@ -20,6 +20,8 @@ import {
 // commentsSlice
 import {
   selectIsComment,
+  newCommentEvent,
+  deleteCommentEvent,
 } from '../comments/commentsSlice'
 
 // sub-notes
@@ -61,6 +63,20 @@ const Notes = () => {
   useEffect(()=>{
     SOCKET.on('deleteNoteEvent',_id=>{
       dispatch(deleteNoteEvent(_id))
+    })
+  },[])
+
+  // new comments
+  useEffect(()=>{
+    SOCKET.on('newCommentEvent',comment=>{
+      dispatch(newCommentEvent(comment))
+    })
+  },[])
+
+  // delete comment
+  useEffect(()=>{
+    SOCKET.on('deleteCommentEvent',comment=>{
+      dispatch(deleteCommentEvent(comment))
     })
   },[])
 

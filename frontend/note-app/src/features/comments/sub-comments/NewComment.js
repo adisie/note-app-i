@@ -1,9 +1,22 @@
 import {useState} from 'react'
 import {motion} from 'framer-motion'
+import {useSelector,useDispatch} from 'react-redux'
+
+// actions from slice
+// commentsSlice
+import {
+    selectIsComment,
+    newComment,
+    selectIsCommentPending,
+} from '../commentsSlice'
 
 // icons
 // send
 import { GrSend } from "react-icons/gr"
+
+// sub-comments
+// CommentSpiner
+import CommentSpinner from './CommentSpinner'
 
 // main
 // NewComment
@@ -11,6 +24,14 @@ const NewComment = () => {
     // local states
     // note
     const [comment,setComment] = useState('')
+    
+    // states from slices
+    // commentsSlice
+    const isComment = useSelector(selectIsComment)
+    const isCommentPending = useSelector(selectIsCommentPending)
+
+    // hooks
+    const dispatch = useDispatch()
 
     // adjust text-area height
     const adjustTextAreaHeight = e => {
@@ -24,11 +45,16 @@ const NewComment = () => {
     const submitHandler = () => {
         let textaea = document.getElementById('new-comment-textarea')
        if(comment.trim()){
-        console.log({comment})
+        dispatch(newComment({comment,noteId: isComment}))
        }
         setComment('')
         textaea.style.height = '18px'
         textaea.focus()
+    }
+
+    // spinner
+    if(isCommentPending){
+        return <CommentSpinner />
     }
   return (
     <div className="flex items-center">
