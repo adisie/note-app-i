@@ -22,6 +22,7 @@ import {
   selectIsComment,
   newCommentEvent,
   deleteCommentEvent,
+  newNoteCommentEvent,
 } from '../comments/commentsSlice'
 
 // sub-notes
@@ -56,6 +57,7 @@ const Notes = () => {
   useEffect(()=>{
     SOCKET.on('newNoteEvent',note=>{
       dispatch(newNoteEvent(note))
+      dispatch(newNoteCommentEvent(note._id))
     })
   },[])
 

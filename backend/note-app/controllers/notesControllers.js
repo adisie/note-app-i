@@ -4,6 +4,9 @@ const fs = require('fs')
 // notesSchema
 // Note
 const Note = require('../models/notesModel')
+// commentsSchema
+// Comment
+const Comment = require('../models/commentsModel')
 
 // allNotes
 const allNotes = async (req,res) => {
@@ -63,9 +66,12 @@ const deleteNote = async (req,res) => {
                 error: 'unauthorized to delete note'
             })
         }
+        
         if(fs.existsSync(note.filePath)){
             fs.unlinkSync(note.filePath)
         }
+        await Comment.deleteMany({noteId: note._id})
+        
         await note.deleteOne()
         res.status(200).json({
             message: 'note deleted',

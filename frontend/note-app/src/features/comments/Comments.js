@@ -32,7 +32,7 @@ const Comments = () => {
 
   return (
     <div className="absolute w-[100%] h-[100%] left-0 top-0 bg-white flex flex-col">
-      <button onClick={()=>dispatch(setIsComment(null))} className='absolute z-50 top-1 right-1 text-xl text-red-700 opacity-[.5] transition-all ease-in-out duration-300 hover:opacity-[.85]'>
+      <button onClick={()=>dispatch(setIsComment(null))} className='absolute z-50 top-1 right-1 text-xl text-red-700 opacity-[.85] transition-all ease-in-out duration-300 hover:opacity-[1]'>
         <RiPictureInPictureExitFill />
       </button>
       <CommentList />

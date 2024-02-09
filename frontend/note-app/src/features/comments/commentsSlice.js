@@ -55,7 +55,7 @@ const commmentsSlice = createSlice({
         newCommentEvent: (state,action) => {
             let index = state.comments.findIndex(com=>com._id === action.payload.noteId)
             let noteComments = state.comments.find(com=>com._id === action.payload.noteId)
-            let comments = [...noteComments.comments,{
+            let comments = [...noteComments?.comments,{
                 _id: action.payload._id,
                 authorId: action.payload.authorId,
                 comment: action.payload.comment,
@@ -75,7 +75,11 @@ const commmentsSlice = createSlice({
             let noteComments = state.comments.find(com=>com._id === action.payload.noteId) 
             let comments = noteComments.comments.filter(com=>com._id !== action.payload.commentId)
             state.comments.at(index).comments = comments
-        }
+        },
+        newNoteCommentEvent: (state,action) => {
+            let newNoteComment = {_id: action.payload,comments: []}
+            state.comments = [...state.comments,newNoteComment]
+        },
 
     },
     extraReducers: builder => {
@@ -132,6 +136,7 @@ export const {
     setIsComment,
     newCommentEvent,
     deleteCommentEvent,
+    newNoteCommentEvent,
 } = commmentsSlice.actions
 
 // selectors

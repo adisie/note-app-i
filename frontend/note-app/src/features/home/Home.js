@@ -14,6 +14,7 @@ import {
 // profilesSlice
 import {
   allProfiles,
+  addNewUserProfileEvent,
 } from '../profiles/profilesSlice'
 // commentsSlice
 import {
@@ -68,7 +69,9 @@ const Home = () => {
   //user signup event
   useEffect(()=>{
     SOCKET.on('userSignupEvent',user=>{
+      console.log(user)
       dispatch(userSignupEvent(user))
+      dispatch(addNewUserProfileEvent(user))
     })
   },[])
 

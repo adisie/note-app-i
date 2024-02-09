@@ -87,7 +87,6 @@ const notesSlice = createSlice({
             // fulfilled
             .addCase(newNote.fulfilled,(state,action)=>{
                 state.isNotePending = false
-                console.log(action.payload)
                 if(action.payload.note){
                     SOCKET.emit('newNote',action.payload.note)
                 }
