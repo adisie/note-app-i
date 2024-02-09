@@ -38,6 +38,12 @@ import Profiles from '../profiles/Profiles'
 // PrivateRoutes
 import PrivateRoutes from '../../utils/PrivateRoutes'
 
+// sub-profile-pages
+// PNotes
+import PNotes from '../profiles/sub-profile-pages/PNotes'
+// PFavorites
+import PFavorites from '../profiles/sub-profile-pages/PFavorites'
+
 
 // main
 // Home
@@ -73,7 +79,10 @@ const Home = () => {
             <Routes>
                 <Route index element = {<Notes />} />
                 <Route path = "users" element = {<Users />} />
-                <Route path = "profiles" element = {<Profiles />} />
+                <Route path = "profiles" element = {<Profiles />}>
+                  <Route index element = {<PNotes />} />
+                  <Route path = "favorites" element = {<PFavorites />} />
+                </Route>
                 <Route element = {<PrivateRoutes />} >
                 </Route>
             </Routes>
