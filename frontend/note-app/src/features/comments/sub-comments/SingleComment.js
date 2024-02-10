@@ -20,6 +20,8 @@ import { MdDeleteOutline } from "react-icons/md"
 // sub-users
 // GetUsername
 import GetUsername from '../../users/sub-users/GetUsername'
+// IsOnline
+import IsOnline from '../../users/sub-users/IsOnline'
 // sub-profiles
 // GetProfile
 import GetProfile from '../../profiles/sub-profiles/GetProfile'
@@ -46,13 +48,16 @@ const SingleComment = ({comment}) => {
         {/* author-profile and username */}
         <div className="flex items-center my-1">
           {/* profile and name */}
-            <NavLink className="flex items-center mr-3">
+            <NavLink className="flex items-center mr-1">
               <GetProfile userId={comment.authorId}/>
               <span className="mx-1">
                 <GetUsername userId={comment.authorId}/>
               </span>
             </NavLink>
-            <div className="flex items-center">
+            {/* IsOnline */}
+            <IsOnline userId={comment.authorId}/>
+
+            <div className="flex items-center ml-2">
               {
                 user?._id === comment.authorId 
                 ?
@@ -74,7 +79,7 @@ const SingleComment = ({comment}) => {
                 :
                 <></>
               }
-              <span>{formatDistanceToNow(new Date(comment.createdAt),{addSuffix: true})}</span>
+              <span className='ml-1'>{formatDistanceToNow(new Date(comment.createdAt),{addSuffix: true})}</span>
             </div>
         </div>
     </div>

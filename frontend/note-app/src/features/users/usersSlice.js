@@ -16,6 +16,7 @@ const initialState = {
     user: localUser ? localUser : null,
     isUserPending: false,
     errors: null,
+    onlineUsers: [],
 }
 
 
@@ -59,6 +60,16 @@ export const logout = createAsyncThunk('users/logout',async () => {
     }
 })
 
+// check auth
+export const checkAuth = createAsyncThunk('users/checkAuth',async () => {
+    try{
+        const response = await axios.get('/api/users/check-auth')
+        return response.data
+    }catch(err){
+        return err.response.data
+    }
+})
+
 // usersSlice
 const usersSlice = createSlice({
     name: 'users',
@@ -77,6 +88,17 @@ const usersSlice = createSlice({
                 }
             })
             state.users = filteredUsers
+        },
+        setOnlineUsers: (state,action) => {
+            let users = [...action.payload] 
+            let filteredUsers = []
+            users.forEach(user => {
+                let isUserExist = filteredUsers.find(us => us.userId === user.userId) 
+                if(!isUserExist){
+                    filteredUsers.push(user)
+                }
+            })
+            state.onlineUsers = filteredUsers
         },
     },
     extraReducers: builder => {
@@ -105,6 +127,7 @@ const usersSlice = createSlice({
                     state.errors = null 
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
                     SOCKET.emit('userSignup',action.payload.user)
+                    SOCKET.emit('userLogin',action.payload.user._id)
                 }
                 if(action.payload.errors){
                     state.errors = action.payload.errors 
@@ -126,6 +149,7 @@ const usersSlice = createSlice({
                     state.user = action.payload.user 
                     state.errors = null 
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    SOCKET.emit('userLogin',action.payload.user._id)
                 }
                 if(action.payload.errors){
                     state.errors = action.payload.errors
@@ -140,6 +164,19 @@ const usersSlice = createSlice({
             // fulfilled
             .addCase(logout.fulfilled,(state,action)=>{
                 if(action.payload.message === 'logged out'){
+                    SOCKET.emit('userLogout',state.user._id)
+                    state.user = null 
+                    state.errors = null 
+                    localStorage.removeItem('user')
+                }
+            })
+            // check-auth
+            // fulfilled
+            .addCase(checkAuth.fulfilled,(state,action) => {
+                if(action.payload.error === 'unauthorized'){
+                    if(state.user?._id){
+                        SOCKET.emit('userLogout',state.user?._id)
+                    }
                     state.user = null 
                     state.errors = null 
                     localStorage.removeItem('user')
@@ -152,6 +189,7 @@ const usersSlice = createSlice({
 export const {
     setUsersFlag,
     userSignupEvent,
+    setOnlineUsers,
 } = usersSlice.actions
 
 // selectors
@@ -165,5 +203,7 @@ export const selectIsUserPending = state => state.users.isUserPending
 export const selectErrors = state => state.users.errors 
 // user
 export const selectUser = state => state.users.user 
+// onlineUsers
+export const selectOnlineUsers = state => state.users.onlineUsers 
 
 export default usersSlice.reducer

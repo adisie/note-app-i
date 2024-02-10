@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom"
-import {useDispatch} from 'react-redux'
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // usersSlice
@@ -9,6 +8,10 @@ import {
   selectUser,
   logout,
 } from '../../users/usersSlice'
+// profilesSlice
+import {
+  setIsProfileLocation,
+} from '../../profiles/profilesSlice'
 
 // icons
 // pen
@@ -38,7 +41,10 @@ const HomeLeftSideBar = () => {
           <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
             <NavLink 
               className={"flex-grow flex items-center"} 
-              to={"/"}
+              to={"/"} 
+              onClick={()=>{
+                dispatch(setIsProfileLocation(false))
+              }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
               <span>Notes</span>
@@ -51,7 +57,10 @@ const HomeLeftSideBar = () => {
             <>
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
-                  className={"flex-grow flex items-center"}
+                  className={"flex-grow flex items-center"} 
+                  onClick={()=>{
+                    dispatch(setIsProfileLocation(false))
+                  }}
                 >
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
                   <span>Favorites</span>
@@ -60,7 +69,10 @@ const HomeLeftSideBar = () => {
 
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
-                  className={"flex-grow flex items-center"}
+                  className={"flex-grow flex items-center"} 
+                  onClick={()=>{
+                    dispatch(setIsProfileLocation(false))
+                  }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>
                   <span>Chats</span>
@@ -69,7 +81,10 @@ const HomeLeftSideBar = () => {
               
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
-                  className={"flex-grow flex items-center"}
+                  className={"flex-grow flex items-center"} 
+                  onClick={()=>{
+                    dispatch(setIsProfileLocation(false))
+                  }}
                 >
                   <IoMdSettings className="text-xl mr-1 opacity-[.75]"/>
                   <span>Settings</span>
@@ -78,6 +93,7 @@ const HomeLeftSideBar = () => {
               <div className="mt-3 flex items-center justify-center bg-emerald-700 rounded-sm text-gray-300 py-1 cursor-pointer transition-all ease-in-out duration-300 hover:opacity-[.75]" 
                 onClick={()=>{
                   dispatch(logout())
+                  dispatch(setIsProfileLocation(false))
                 }}
               >
                 <span>Logout</span>

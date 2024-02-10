@@ -40,8 +40,50 @@ const io = socketio(server,{
     }
 })
 
+let onlineUsers = []
+
+// add new online user
+const addNewOnlineUser = user => {
+    let isUserExist = onlineUsers.find(onUser => onUser.userId === user.userId) 
+    if(isUserExist){
+        let index = onlineUsers.findIndex(onUser => onUser.userId === user.userId)
+        onlineUsers[index] = user
+    }else{
+        onlineUsers.push(user)
+    }
+}
+
+// remove user on logout
+const removeUserOnLogout = userId => {
+    onlineUsers = onlineUsers.filter(user => user.userId !== userId)
+}
+
+// remove user on disconnect
+const removeUserOnDisconnect = sockectId => {
+    onlineUsers = onlineUsers.filter(user => user.socketId !== sockectId)
+}
+
 // socketio connection
 io.on('connection',socket=>{
+    // online users
+    // on login
+    socket.on('userLogin',user => {
+        addNewOnlineUser({userId: user,socketId: socket.id})
+        io.emit('onlineUsersEvent',onlineUsers)
+    })
+
+    // remove user on logout
+    socket.on('userLogout',userId => {
+        removeUserOnLogout(userId)
+        io.emit('onlineUsersEvent',onlineUsers)
+    })
+    // remove user on disconnect
+    socket.on('disconnect',() => {
+        removeUserOnDisconnect(socket.id)
+        io.emit('onlineUsersEvent',onlineUsers)
+    })
+    // emit online users
+    io.emit('onlineUsersEvent',onlineUsers)
     // notes
     // new note
     socket.on('newNote',note=>{
@@ -65,6 +107,17 @@ io.on('connection',socket=>{
     // new user signup
     socket.on('userSignup',user=>{
         io.emit('userSignupEvent',user)
+    })
+
+    // profiles
+    // new profile
+    socket.on('newProfile',profile => {
+        io.emit('newProfileEvent',profile)
+    })
+
+    // delete profile
+    socket.on('deleteProfile',profile => {
+        io.emit('deleteProfileEvent',profile)
     })
 })
 

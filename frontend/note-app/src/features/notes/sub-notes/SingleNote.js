@@ -21,6 +21,12 @@ import {
   deleteNote,
   selectIsNoteDeleting,
 } from '../notesSlice'
+// profilesSlice
+import {
+  setIsProfiles,
+  setIsProfileOwner,
+  setIsProfileLocation,
+} from '../../profiles/profilesSlice'
 
 // icons
 // thumb
@@ -35,6 +41,8 @@ import { MdDeleteOutline } from "react-icons/md"
 // sub-users
 // GetUsername
 import GetUsername from '../../users/sub-users/GetUsername'
+// IsOnline
+import IsOnline from '../../users/sub-users/IsOnline'
 // sub-profiles
 // GetProfile
 import GetProfile from '../../profiles/sub-profiles/GetProfile'
@@ -85,14 +93,21 @@ const SingleNote = ({note}) => {
       {/* author-info */}
       <div className="flex items-center">
         {/* author-profile-name */}
-        <NavLink 
-          className="flex items-center mr-3"
+        <NavLink to={'/profiles'} 
+          className="flex items-center mr-1" 
+          onClick={()=>{
+            dispatch(setIsProfiles(note.authorId))
+            dispatch(setIsProfileOwner(user?._id === note.authorId))
+            dispatch(setIsProfileLocation(true))
+          }}
         >
           <GetProfile userId={note.authorId}/>
           <span className="ml-1">
             <GetUsername userId={note.authorId}/>
           </span>
         </NavLink>
+        {/* IsOnline */}
+        <IsOnline userId={note.authorId}/>
         {/* controllers */}
         <div className="flex items-center ml-3 my-1">
           {/* like */}

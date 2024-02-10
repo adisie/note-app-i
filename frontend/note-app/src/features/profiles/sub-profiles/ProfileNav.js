@@ -1,7 +1,11 @@
 import {NavLink} from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
-// test image
-import testProfile from '../../../assets/images/profiles/male-profile-3.jpg'
+// actions from slices
+// profilesSlice
+import {
+    selectProfileOwnerId,
+} from '../profilesSlice'
 
 // icons
 // pen
@@ -9,16 +13,29 @@ import { RiQuillPenFill } from "react-icons/ri"
 // favorite
 import { MdOutlineFavorite } from "react-icons/md"
 
+// sub-users
+// GetUsername
+import GetUsername from "../../users/sub-users/GetUsername"
+// sub-profiles
+// GetProfile
+import GetProfile from "../sub-profiles/GetProfile"
+
+
 // main
 // ProfileNav
 const ProfileNav = () => {
+    // states from slices
+    // profilesSlice
+    const profileOwnerId = useSelector(selectProfileOwnerId)
 
   return (
     <div className="px-1 flex items-center justify-between text-xs font-serif">
         {/* user proeile and name */}
         <div className="items-center hidden mr-3" id="profile-header-user-name-profile">
-            <img src={testProfile} alt="" className="w-[24px] h-[24px] rounded-full mr-1"/>
-            <span>username</span>
+            <GetProfile userId={profileOwnerId}/>
+            <span className="ml-1">
+                <GetUsername userId={profileOwnerId}/>
+            </span>
         </div>
         {/* nav link */}
         <div className="flex-grow flex items-center">

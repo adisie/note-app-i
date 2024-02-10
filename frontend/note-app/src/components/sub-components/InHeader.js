@@ -1,11 +1,18 @@
 import {NavLink} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
   logout,
 } from '../../features/users/usersSlice'
+// profilesSlice
+import {
+  setIsProfiles,
+  setIsProfileOwner,
+  selectIsProfileLocation,
+  setIsProfileLocation,
+} from '../../features/profiles/profilesSlice'
 
 // sub-users
 // GetUsername
@@ -16,6 +23,12 @@ import GetProfile from '../../features/profiles/sub-profiles/GetProfile'
 // main
 // InHeader
 const InHeader = ({user}) => {
+
+  // states from slices
+  // profilesSlice
+  const isProfileLocation = useSelector(selectIsProfileLocation)
+
+
   // hooks 
   const dispatch = useDispatch()
 
@@ -23,7 +36,17 @@ const InHeader = ({user}) => {
     <div className="flex items-center">
         <NavLink 
           className="flex items-center" 
-          to={"/profiles"}
+          to={isProfileLocation ? "/" : "/profiles"} 
+          onClick={()=>{
+            if(isProfileLocation){
+              dispatch(setIsProfileLocation(false))
+              dispatch(setIsProfileOwner(false))
+            }else {
+              dispatch(setIsProfileLocation(true))
+              dispatch(setIsProfileOwner(true))
+            }
+            dispatch(setIsProfiles(user?._id))
+          }}
           >
             <span className="text-gray-300 mr-1">
               <GetUsername userId={user._id} />
