@@ -9,6 +9,8 @@ import profilesReducer from '../features/profiles/profilesSlice'
 import notesReducer from '../features/notes/notesSlice'
 // commentsReducer
 import commentsReducer from '../features/comments/commentsSlice'
+// favoritesReducer
+import favoritesReducer from '../features/favorites/favoritesSlice'
 
 // store
 export const store = configureStore({
@@ -17,5 +19,6 @@ export const store = configureStore({
         profiles: profilesReducer,
         notes: notesReducer,
         comments: commentsReducer,
+        favorites: favoritesReducer,
     }
 })

@@ -26,6 +26,10 @@ import {
 import {
   allComments,
 } from '../comments/commentsSlice'
+// favoritesSlice
+import {
+  allMyFavorites,
+} from '../favorites/favoritesSlice'
 
 // sub-home
 // HomeLeftSideBar
@@ -77,8 +81,10 @@ const Home = () => {
     })
   },[])
   // reconnect user
+  // all my favorites
   useEffect(()=>{
     if(user){
+      dispatch(allMyFavorites())
       SOCKET.emit('userLogin',user._id)
     }
   },[])

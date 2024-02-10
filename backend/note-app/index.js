@@ -131,6 +131,8 @@ app.use('/api/notes',require('./routes/notesRoutes'))
 app.use('/api/comments',require('./routes/commentsRoutes'))
 // profilesRoutes
 app.use('/api/profiles',require('./routes/profilesRoutes'))
+// favoritesRoutes
+app.use('/api/favorites',require('./routes/favoritesRoutes'))
 
 // public files
 app.use('/public',express.static('public'))

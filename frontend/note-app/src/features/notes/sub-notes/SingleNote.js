@@ -33,8 +33,6 @@ import {
 import { FaRegThumbsUp } from "react-icons/fa"
 // commens
 import { AiOutlineMessage } from "react-icons/ai"
-// favorite
-import { MdFavoriteBorder } from "react-icons/md"
 // delete
 import { MdDeleteOutline } from "react-icons/md"
 
@@ -49,6 +47,9 @@ import GetProfile from '../../profiles/sub-profiles/GetProfile'
 // sub-comments
 // CommentCount
 import CommentCount from '../../comments/sub-comments/CommentCount'
+// sub-favorites
+// FavoriteBtns
+import FavoriteBtns from '../../favorites/sub-favorites/FavoriteBtns'
 
 // main
 // SingleNote
@@ -130,9 +131,14 @@ const SingleNote = ({note}) => {
               <AiOutlineMessage />
             </NavLink>
           </div>
-          <button className='text-xl mx-1'>
-            <MdFavoriteBorder />
-          </button>
+          {/* favorites */}
+          {
+            user
+            ?
+            <FavoriteBtns user={user} note={note}/>
+            :
+            <></>
+          }
           {
             user?._id === note.authorId 
             ?
