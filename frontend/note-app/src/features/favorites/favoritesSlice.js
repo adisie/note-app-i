@@ -1,9 +1,16 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
+// global constants
+import {
+    SOCKET,
+} from '../../config'
+
 // initialState
 const initialState = {
     myFavorites: [],
+    isFavoritePending: false,
+    noteId: null,
 }
 
 // all my favorites
@@ -20,9 +27,9 @@ export const allMyFavorites = createAsyncThunk('favorites/allMyFavorites', async
 export const addNewFavorite = createAsyncThunk('favorites/addNewFavorite',async noteId => {
     try{
         const response = await axios.post('/api/favorites/add-favorite',{noteId})
-        console.log(response.data)
+        return response.data
     }catch(err){
-        console.log(err)
+        return err.response.data
     }
 })
 
@@ -30,9 +37,9 @@ export const addNewFavorite = createAsyncThunk('favorites/addNewFavorite',async 
 export const removeFavorite = createAsyncThunk('favorites/removeFavorite',async _id => {
     try{
         const response = await axios.delete(`/api/favorites/delete-favorite/${_id}`)
-        console.log(response.data)
+        return response.data
     }catch(err){
-        console.log(err)
+        return err.response.data
     }
 })
 
@@ -41,7 +48,23 @@ const favoritessSlice = createSlice({
     name: 'favorites',
     initialState,
     reducers: {
-
+        setNoteId: (state,action) => {
+            state.noteId = action.payload 
+        },
+        newFavoriteEvent: (state,action) => {
+            let favorites = [action.payload,...state.myFavorites]
+            let filteredFavorites = [] 
+            favorites.forEach(favorite => {
+                let isFavoriteExist = filteredFavorites.find(fav => fav._id === favorite._id)
+                if(!isFavoriteExist){
+                    filteredFavorites.push(favorite)
+                }
+            })
+            state.myFavorites = filteredFavorites
+        },
+        removeFavoriteEvent: (state,action) => {
+            state.myFavorites = state.myFavorites.filter(favorite => favorite._id !== action.payload._id)
+        },
     },
     extraReducers: builder => {
         builder
@@ -51,14 +74,63 @@ const favoritessSlice = createSlice({
             .addCase(allMyFavorites.fulfilled,(state,action)=>{
                 if(action.payload.favorites){
                     state.myFavorites = action.payload.favorites 
+                }else {
+                    state.myFavorites = []
                 }
+            })
+            // new favorite
+            // pending
+            .addCase(addNewFavorite.pending,state => {
+                state.isFavoritePending = true
+            })
+            // fulfilled
+            .addCase(addNewFavorite.fulfilled,(state,action) => {
+                state.isFavoritePending = false 
+                state.noteId = null 
+                if(action.payload.favorite){
+                    SOCKET.emit('newFavorite',action.payload.favorite)
+                }
+            })
+            // rejected
+            .addCase(addNewFavorite.rejected,state => {
+                state.noteId = null
+                state.isFavoritePending = favoritessSlice 
+            })
+            // remove favorite
+            // pending
+            .addCase(removeFavorite.pending,state => {
+                state.isFavoritePending = true
+            })
+            // fulfilled
+            .addCase(removeFavorite.fulfilled,(state,action) => {
+                state.noteId = null 
+                state.isFavoritePending = false 
+                if(action.payload.message === "favorite removed"){
+                    SOCKET.emit('removeFavorite',action.payload)
+                }
+            })
+            // rejected
+            .addCase(removeFavorite.rejected,state => {
+                state.noteId = null 
+                state.isFavoritePending = false
             })
     },
 })
 
+// actions
+export const {
+    setNoteId,
+    newFavoriteEvent,
+    removeFavoriteEvent,
+} = favoritessSlice.actions
+
 // selectors
 // my favorites
 export const selectMyFavorites = state => state.favorites.myFavorites 
+// isFavoritePending
+export const selectIsFavoritePending = state => state.favorites.isFavoritePending 
+// noteId
+export const selectNoteId = state => state.favorites.noteId 
 
 // exports
 export default favoritessSlice.reducer

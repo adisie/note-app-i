@@ -84,10 +84,14 @@ const Home = () => {
   // all my favorites
   useEffect(()=>{
     if(user){
-      dispatch(allMyFavorites())
       SOCKET.emit('userLogin',user._id)
     }
   },[])
+  useEffect(()=>{
+    if(user){
+      dispatch(allMyFavorites())
+    }
+  })
   // all profiles
   useEffect(()=>{
     dispatch(allProfiles())

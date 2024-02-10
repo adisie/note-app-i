@@ -6,6 +6,9 @@ import {
     addNewFavorite,
     selectMyFavorites,
     removeFavorite,
+    selectIsFavoritePending,
+    setNoteId,
+    selectNoteId,
 } from '../favoritesSlice'
 
 // icons
@@ -19,13 +22,15 @@ const FavoriteBtns = ({user,note}) => {
     // states from slices
     // favorites slice
     const myFavorites = useSelector(selectMyFavorites)
-
-    console.log(myFavorites)
+    const isFavoritePending = useSelector(selectIsFavoritePending)
+    const noteId = useSelector(selectNoteId)
 
     let isFavorite = myFavorites.find(favorite => favorite.noteId === note._id)
 
     // hooks
     const dispatch = useDispatch()
+
+    
 
   return (
     <>
@@ -36,23 +41,39 @@ const FavoriteBtns = ({user,note}) => {
             {
                 isFavorite
                 ?
-                <button className='text-xl' 
-                    onClick={()=>{
-                        console.log('remove me',note._id)
-                        dispatch(removeFavorite(isFavorite._id))
-                    }}
-                >
-                    <MdFavorite />
-                </button>
+                <>
+                {
+                    isFavoritePending && noteId === isFavorite.noteId 
+                    ?
+                    <div className='w-[16px] h-[16px] rounded-full border-2 border-emerald-700 border-r-transparent animate-spin'></div>
+                    :
+                    <button className='text-xl' 
+                        onClick={()=>{
+                            dispatch(setNoteId(isFavorite.noteId))
+                            dispatch(removeFavorite(isFavorite._id))
+                        }}
+                    >
+                        <MdFavorite />
+                    </button>
+                }
+                </>
                 :
-                <button className='text-xl' 
-                    onClick={()=>{
-                        console.log('add me',note._id)
-                        // dispatch(addNewFavorite(note._id))
-                    }}
-                >
-                    <MdOutlineFavoriteBorder />
-                </button>
+                <>
+                {
+                    isFavoritePending && noteId === note._id 
+                    ?
+                    <div className='w-[16px] h-[16px] rounded-full border-2 border-emerald-700 border-r-transparent animate-spin'></div>
+                    :
+                    <button className='text-xl' 
+                        onClick={()=>{
+                            dispatch(setNoteId(note._id))
+                            dispatch(addNewFavorite(note._id))
+                        }}
+                    >
+                        <MdOutlineFavoriteBorder />
+                    </button>
+                }
+                </>
             }
         </>
         :

@@ -12,6 +12,10 @@ import {
 import {
   setIsProfileLocation,
 } from '../../profiles/profilesSlice'
+// favoritesSlice
+import {
+  selectMyFavorites,
+} from '../../favorites/favoritesSlice'
 
 // icons
 // pen
@@ -30,6 +34,8 @@ const HomeLeftSideBar = () => {
   // states from slices
   // usersSlice
   const user = useSelector(selectUser)
+  // favoritesSlice
+  const myFavorites = useSelector(selectMyFavorites) 
   // hooks
   const dispatch = useDispatch()
 
@@ -65,6 +71,15 @@ const HomeLeftSideBar = () => {
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
                   <span>Favorites</span>
                 </NavLink>
+                {
+                  myFavorites?.length > 0 
+                  ?
+                <div className="w-[18px] h-[18px] rounded-full bg-emerald-700 text-xs text-gray-300 flex items-center justify-center">
+                  <span>{myFavorites?.length > 21 ? `${myFavorites.length}+` : myFavorites.length}</span>
+                </div>
+                  :
+                  <></>
+                }
               </li>
 
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">

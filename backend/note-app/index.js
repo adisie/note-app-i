@@ -94,6 +94,16 @@ io.on('connection',socket=>{
         io.emit('deleteNoteEvent',_id)
     })
 
+    // favorites
+    // new favorite
+    socket.on('newFavorite',favorite => {
+        socket.emit('newFavoriteEvent',favorite)
+    })
+    // remove favorite
+    socket.on('removeFavorite',favorite => {
+        socket.emit('removeFavoriteEvent',favorite)
+    })
+
     // comments
     // new comment
     socket.on('newComment',comment=>{
