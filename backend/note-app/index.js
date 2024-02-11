@@ -94,6 +94,16 @@ io.on('connection',socket=>{
         io.emit('deleteNoteEvent',_id)
     })
 
+    // likes
+    // new like
+    socket.on('newLike',like => {
+        io.emit('newLikeEvent',like)
+    })
+    // delete like
+    socket.on('deleteLike',_id => {
+        io.emit('deleteLikeEvent',_id)
+    })
+
     // favorites
     // new favorite
     socket.on('newFavorite',favorite => {
@@ -143,6 +153,8 @@ app.use('/api/comments',require('./routes/commentsRoutes'))
 app.use('/api/profiles',require('./routes/profilesRoutes'))
 // favoritesRoutes
 app.use('/api/favorites',require('./routes/favoritesRoutes'))
+// likesRoutes
+app.use('/api/likes',require('./routes/likesRoutes'))
 
 // public files
 app.use('/public',express.static('public'))

@@ -29,8 +29,6 @@ import {
 } from '../../profiles/profilesSlice'
 
 // icons
-// thumb
-import { FaRegThumbsUp } from "react-icons/fa"
 // commens
 import { AiOutlineMessage } from "react-icons/ai"
 // delete
@@ -50,6 +48,9 @@ import CommentCount from '../../comments/sub-comments/CommentCount'
 // sub-favorites
 // FavoriteBtns
 import FavoriteBtns from '../../favorites/sub-favorites/FavoriteBtns'
+
+// likes
+import Likes from '../../likes/Likes'
 
 // main
 // SingleNote
@@ -112,12 +113,7 @@ const SingleNote = ({note}) => {
         {/* controllers */}
         <div className="flex items-center ml-3 my-1">
           {/* like */}
-          <div className="flex items-center mr-1">
-            <span className='text-md mr-1'>12</span>
-            <button className="text-lg">
-              <FaRegThumbsUp />
-            </button>
-          </div>
+          <Likes noteId={note._id}/>
           {/* comment */}
           <div className="flex items-center mr-1">
             <span className="text-md mr-1">

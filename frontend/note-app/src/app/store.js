@@ -11,6 +11,8 @@ import notesReducer from '../features/notes/notesSlice'
 import commentsReducer from '../features/comments/commentsSlice'
 // favoritesReducer
 import favoritesReducer from '../features/favorites/favoritesSlice'
+// likesReducer
+import likesReducer from '../features/likes/likesSlice'
 
 // store
 export const store = configureStore({
@@ -20,5 +22,6 @@ export const store = configureStore({
         notes: notesReducer,
         comments: commentsReducer,
         favorites: favoritesReducer,
+        likes: likesReducer,
     }
 })

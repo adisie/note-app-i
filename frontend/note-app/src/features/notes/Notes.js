@@ -29,6 +29,12 @@ import {
   newFavoriteEvent,
   removeFavoriteEvent,
 } from '../favorites/favoritesSlice'
+// likesSlice
+import {
+  getAllLikes,
+  addNewLikeEvent,
+  deleteLikeEvent,
+} from '../likes/likesSlice'
 
 // sub-notes
 // NotesList
@@ -70,6 +76,26 @@ const Notes = () => {
   useEffect(()=>{
     SOCKET.on('deleteNoteEvent',_id=>{
       dispatch(deleteNoteEvent(_id))
+    })
+  },[])
+
+  // likes
+  // get all likes
+  useEffect(()=>{
+    dispatch(getAllLikes())
+  },[])
+
+  // add new like 
+  useEffect(()=>{
+    SOCKET.on('newLikeEvent',like => {
+      dispatch(addNewLikeEvent(like))
+    })
+  },[])
+
+  // delete like 
+  useEffect(()=>{
+    SOCKET.on('deleteLikeEvent',_id=>{
+      dispatch(deleteLikeEvent(_id))
     })
   },[])
 
