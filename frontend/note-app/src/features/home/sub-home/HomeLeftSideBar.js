@@ -16,6 +16,10 @@ import {
 import {
   selectMyFavorites,
 } from '../../favorites/favoritesSlice'
+// commentsSlice
+import {
+  setIsComment,
+} from '../../comments/commentsSlice'
 
 // icons
 // pen
@@ -39,8 +43,16 @@ const HomeLeftSideBar = () => {
   // hooks
   const dispatch = useDispatch()
 
+  // active link style
+  const activeLinkStyle = ({isActive}) => {
+    return {
+      fontWeight: isActive ? "bold" : "normal",
+      textDecoration: isActive ? "underline" : "none",
+    }
+  }
+
   return (
-    <div className="w-[20%] text-xs text-emerald-700 font-serif">
+    <div className="min-w-[20%] text-xs text-emerald-700 font-serif">
       {/* authenticated side bar */}
       <div className="pr-1">
         <ul className="flex flex-col">
@@ -48,8 +60,10 @@ const HomeLeftSideBar = () => {
             <NavLink 
               className={"flex-grow flex items-center"} 
               to={"/"} 
+              style={activeLinkStyle} 
               onClick={()=>{
                 dispatch(setIsProfileLocation(false))
+                dispatch(setIsComment(null))
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
@@ -63,9 +77,12 @@ const HomeLeftSideBar = () => {
             <>
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
+                  to={"/favorites"}
                   className={"flex-grow flex items-center"} 
+                  style={activeLinkStyle} 
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
+                    dispatch(setIsComment(null))
                   }}
                 >
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
@@ -85,8 +102,10 @@ const HomeLeftSideBar = () => {
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
                   className={"flex-grow flex items-center"} 
+                  // style={activeLinkStyle} 
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
+                    dispatch(setIsComment(null))
                   }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>
@@ -97,8 +116,10 @@ const HomeLeftSideBar = () => {
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
                   className={"flex-grow flex items-center"} 
+                  // style={activeLinkStyle} 
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
+                    dispatch(setIsComment(null))
                   }}
                 >
                   <IoMdSettings className="text-xl mr-1 opacity-[.75]"/>
@@ -109,6 +130,7 @@ const HomeLeftSideBar = () => {
                 onClick={()=>{
                   dispatch(logout())
                   dispatch(setIsProfileLocation(false))
+                  dispatch(setIsComment(null))
                 }}
               >
                 <span>Logout</span>

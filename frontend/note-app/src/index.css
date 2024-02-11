@@ -27,6 +27,22 @@
     border-radius: 3px;
 }
 
+/* favorites-list-container */
+
+#favorites-list-container::-webkit-scrollbar {
+    width: 3px;
+}
+
+#favorites-list-container::-webkit-scrollbar-track {
+    background: rgb(235, 234, 234);
+    border-radius: 3px;
+}
+
+#favorites-list-container::-webkit-scrollbar-thumb {
+    background: rgb(187, 187, 187);
+    border-radius: 3px;
+}
+
 /* comments-list-con */
 
 #comments-list-con::-webkit-scrollbar {

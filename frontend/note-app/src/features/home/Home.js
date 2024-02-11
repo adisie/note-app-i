@@ -29,6 +29,7 @@ import {
 // favoritesSlice
 import {
   allMyFavorites,
+  resetMyFavorites,
 } from '../favorites/favoritesSlice'
 
 // sub-home
@@ -56,6 +57,10 @@ import IsProfileOn from '../../utils/IsProfileOn'
 import PNotes from '../profiles/sub-profile-pages/PNotes'
 // PFavorites
 import PFavorites from '../profiles/sub-profile-pages/PFavorites'
+
+// favorites
+// Favorites
+import Favorites from '../favorites/Favorites'
 
 
 // main
@@ -85,6 +90,8 @@ const Home = () => {
   useEffect(()=>{
     if(user){
       SOCKET.emit('userLogin',user._id)
+    }else {
+      dispatch(resetMyFavorites())
     }
   },[])
   useEffect(()=>{
@@ -146,6 +153,7 @@ const Home = () => {
                   </Route>
                 </Route>
                 <Route element = {<PrivateRoutes />} >
+                  <Route path='favorites' element = {<Favorites />} />
                 </Route>
             </Routes>
         </div>

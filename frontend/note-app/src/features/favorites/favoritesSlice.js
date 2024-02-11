@@ -65,6 +65,9 @@ const favoritessSlice = createSlice({
         removeFavoriteEvent: (state,action) => {
             state.myFavorites = state.myFavorites.filter(favorite => favorite._id !== action.payload._id)
         },
+        resetMyFavorites: state => {
+            state.myFavorites = []
+        },
     },
     extraReducers: builder => {
         builder
@@ -122,6 +125,7 @@ export const {
     setNoteId,
     newFavoriteEvent,
     removeFavoriteEvent,
+    resetMyFavorites,
 } = favoritessSlice.actions
 
 // selectors

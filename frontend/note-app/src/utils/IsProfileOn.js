@@ -15,7 +15,7 @@ const IsProfileOn = () => {
     const isProfileLocation = useSelector(selectIsProfileLocation)
 
   return (
-    <div>
+    <>
         {
             isProfileLocation
             ?
@@ -23,7 +23,7 @@ const IsProfileOn = () => {
             :
             <Navigate to={'/'} />
         }
-    </div>
+    </>
   )
 }
 
