@@ -54,6 +54,10 @@ import CommentCount from '../../comments/sub-comments/CommentCount'
 // FavoriteBtns
 import FavoriteBtns from '../../favorites/sub-favorites/FavoriteBtns'
 
+// likes
+// Likes
+import Likes from '../../likes/Likes'
+
 
 // main
 // SingleFavorite
@@ -119,12 +123,7 @@ const SingleFavorite = ({noteId}) => {
         {/* controllers */}
         <div className="flex items-center ml-3 my-1">
           {/* like */}
-          <div className="flex items-center mr-1">
-            <span className='text-md mr-1'>12</span>
-            <button className="text-lg">
-              <FaRegThumbsUp />
-            </button>
-          </div>
+          <Likes noteId={note._id}/>
           {/* comment */}
           <div className="flex items-center mr-1">
             <span className="text-md mr-1">
