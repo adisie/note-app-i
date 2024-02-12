@@ -33,8 +33,6 @@ import {
 } from '../../notes/notesSlice'
 
 // icons
-// thumb
-import { FaRegThumbsUp } from "react-icons/fa"
 // commens
 import { AiOutlineMessage } from "react-icons/ai"
 

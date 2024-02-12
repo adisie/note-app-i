@@ -6,6 +6,11 @@ import { useSelector,useDispatch } from 'react-redux'
 import {
   selectUser,
 } from '../features/users/usersSlice'
+// homeSlice
+import {
+  selectMainDir,
+  setMainDir,
+} from '../features/home/homeSlice'
 
 // commentsSlice
 import {
@@ -24,12 +29,20 @@ import InHeader from './sub-components/InHeader'
 // OutHeader
 import OutHeader from './sub-components/OutHeader'
 
+// sub-headers for diffrent parts
+// note-header
+import NotesSearchBar from '../features/notes/sub-notes/NotesSearchBar'
+// chats-header
+import ChatsHeader from '../features/chats/sub-chats/ChatsHeader'
+
 // main
 // Header
 const Header = () => {
   // states from slices
   // usersSlice
   const user = useSelector(selectUser)
+  // homeSlice
+  const mainDir = useSelector(selectMainDir)
 
   // hooks
   const dispatch = useDispatch()
@@ -50,12 +63,27 @@ const Header = () => {
             <NavLink className="flex items-center text-xl text-gray-400 font-black" to={"/"} 
               onClick={()=>{
                 dispatch(setIsComment(null))
+                dispatch(setMainDir('NOTES'))
               }}
             >
               <RiQuillPenFill className="text-2xl"/>
               <span>note<span className="text-gray-200">Share</span></span>
             </NavLink>
           </div>
+        </div>
+        {/* header bars */}
+        <div className="flex-grow flex items-center justify-center">
+          {
+            mainDir === 'NOTES'
+            ?
+            <NotesSearchBar />
+            :
+            mainDir === 'CHATS'
+            ?
+            <ChatsHeader />
+            :
+            <></>
+          }
         </div>
         {/* log-container */}
         <div>

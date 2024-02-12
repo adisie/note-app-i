@@ -31,6 +31,11 @@ import {
   allMyFavorites,
   resetMyFavorites,
 } from '../favorites/favoritesSlice'
+// connectionsSlice
+import {
+  allConnections,
+  newConnectionEvent,
+} from '../connections/connectionsSlice'
 
 // sub-home
 // HomeLeftSideBar
@@ -61,6 +66,10 @@ import PFavorites from '../profiles/sub-profile-pages/PFavorites'
 // favorites
 // Favorites
 import Favorites from '../favorites/Favorites'
+
+// chats
+// Chats
+import Chats from '../chats/Chats'
 
 
 // main
@@ -110,7 +119,6 @@ const Home = () => {
   //user signup event
   useEffect(()=>{
     SOCKET.on('userSignupEvent',user=>{
-      console.log(user)
       dispatch(userSignupEvent(user))
       dispatch(addNewUserProfileEvent(user))
       dispatch(setIsProfiles(user._id))
@@ -139,6 +147,21 @@ const Home = () => {
     dispatch(checkAuth())
   },[])
 
+  // connections
+  // all connections
+  useEffect(() => {
+    if(user){
+      dispatch(allConnections())
+    }
+  })
+
+  // new connections
+  useEffect(()=>{
+    SOCKET.on('newConnectionEvent',connection=>{
+      dispatch(newConnectionEvent(connection))
+    })
+  },[])
+
   return (
     <div className="flex-grow flex">
         <div className="flex-grow max-w-[820px] mx-auto px-3 flex">
@@ -154,6 +177,7 @@ const Home = () => {
                 </Route>
                 <Route element = {<PrivateRoutes />} >
                   <Route path='favorites' element = {<Favorites />} />
+                  <Route path='chats' element = {<Chats />} />
                 </Route>
             </Routes>
         </div>

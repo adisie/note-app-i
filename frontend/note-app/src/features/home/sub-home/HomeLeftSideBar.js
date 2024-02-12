@@ -8,6 +8,10 @@ import {
   selectUser,
   logout,
 } from '../../users/usersSlice'
+// homeSlice
+import {
+  setMainDir,
+} from '../homeSlice'
 // profilesSlice
 import {
   setIsProfileLocation,
@@ -64,6 +68,7 @@ const HomeLeftSideBar = () => {
               onClick={()=>{
                 dispatch(setIsProfileLocation(false))
                 dispatch(setIsComment(null))
+                dispatch(setMainDir('NOTES'))
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
@@ -101,11 +106,13 @@ const HomeLeftSideBar = () => {
 
               <li className="flex-grow flex items-center my-[.3rem] pb-1 border-emerald-700 border-b border-opacity-[.13] transition-all ease-in-out duration-300 hover:pl-1">
                 <NavLink 
+                  to={"/chats"}
                   className={"flex-grow flex items-center"} 
-                  // style={activeLinkStyle} 
+                  style={activeLinkStyle} 
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
+                    dispatch(setMainDir('CHATS'))
                   }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>

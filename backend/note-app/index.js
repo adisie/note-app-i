@@ -139,6 +139,11 @@ io.on('connection',socket=>{
     socket.on('deleteProfile',profile => {
         io.emit('deleteProfileEvent',profile)
     })
+
+    // connections
+    socket.on('newConnection',connection=>{
+        socket.emit('newConnectionEvent',connection)
+    })
 })
 
 
@@ -155,6 +160,8 @@ app.use('/api/profiles',require('./routes/profilesRoutes'))
 app.use('/api/favorites',require('./routes/favoritesRoutes'))
 // likesRoutes
 app.use('/api/likes',require('./routes/likesRoutes'))
+// connectionsRoutes
+app.use('/api/connections',require('./routes/connectionsRoutes'))
 
 // public files
 app.use('/public',express.static('public'))
