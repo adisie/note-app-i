@@ -1,3 +1,11 @@
+import {useDispatch} from 'react-redux'
+
+// actions from slices
+// chats
+import {
+    setIsChatSelected,
+    setChatDir,
+} from '../../chatsSlice'
 
 // sub-profiles
 // GetProfile
@@ -14,11 +22,18 @@ import { AiOutlineDisconnect } from "react-icons/ai"
 
 // main
 // SingleFriend
-const SingleFriend = ({userId}) => {
+const SingleFriend = ({userId,connectionId}) => {
+    // hooks
+    const dispatch = useDispatch() 
   return (
     <div className="my-1 py-1 ml-5 border-b border-emerald-700 border-opacity-[.13] flex items-center justify-between text-xs text-emerald-700 font-serif">
         {/* profile and name */}
-        <div className="flex items-center cursor-pointer">
+        <div className="flex items-center cursor-pointer" 
+            onClick={()=>{
+                dispatch(setChatDir('CBX'))
+                dispatch(setIsChatSelected(connectionId))
+            }}
+        >
             <GetProfile userId={userId} />
             <span className="mx-1">
                 <GetUsername userId={userId} />

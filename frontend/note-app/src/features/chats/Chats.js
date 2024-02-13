@@ -20,7 +20,7 @@ const Chats = () => {
     const chatDir = useSelector(selectChatDir) 
 
   return (
-    <div className="flex-grow m-1 flex">
+    <div className="flex-grow m-1 flex bg-gray-50 rounded-sm">
         {
             chatDir === 'FRL'
             ?
@@ -41,6 +41,10 @@ const Chats = () => {
             chatDir === 'NOT'
             ?
             <Notifications />
+            :
+            chatDir === 'CBX'
+            ?
+            <ChatBox />
             :
             <></>
         }

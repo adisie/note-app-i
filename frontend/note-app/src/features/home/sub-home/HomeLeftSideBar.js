@@ -27,6 +27,7 @@ import {
 // chats
 import {
   setChatDir,
+  setIsChatSelected,
 } from '../../chats/chatsSlice'
 // connections
 import {
@@ -77,6 +78,7 @@ const HomeLeftSideBar = () => {
                 dispatch(setIsComment(null))
                 dispatch(setMainDir('NOTES'))
                 dispatch(setChatDir('FRL'))
+                dispatch(setIsChatSelected(null))
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
