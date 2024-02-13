@@ -24,7 +24,14 @@ import {
 import {
   setIsComment,
 } from '../../comments/commentsSlice'
-
+// chats
+import {
+  setChatDir,
+} from '../../chats/chatsSlice'
+// connections
+import {
+  resetNotifications,
+} from '../../connections/connectionsSlice'
 // icons
 // pen
 import { RiQuillPenFill } from "react-icons/ri"
@@ -69,6 +76,7 @@ const HomeLeftSideBar = () => {
                 dispatch(setIsProfileLocation(false))
                 dispatch(setIsComment(null))
                 dispatch(setMainDir('NOTES'))
+                dispatch(setChatDir('FRL'))
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
@@ -88,6 +96,7 @@ const HomeLeftSideBar = () => {
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
+                    dispatch(setChatDir('FRL'))
                   }}
                 >
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
@@ -113,6 +122,7 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
                     dispatch(setMainDir('CHATS'))
+                    dispatch(setChatDir('FRL'))
                   }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>
@@ -127,6 +137,7 @@ const HomeLeftSideBar = () => {
                   onClick={()=>{
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
+                    dispatch(setChatDir('FRL'))
                   }}
                 >
                   <IoMdSettings className="text-xl mr-1 opacity-[.75]"/>
@@ -138,6 +149,9 @@ const HomeLeftSideBar = () => {
                   dispatch(logout())
                   dispatch(setIsProfileLocation(false))
                   dispatch(setIsComment(null))
+                  dispatch(setMainDir('NOTES'))
+                  dispatch(setChatDir('FRL'))
+                  dispatch(resetNotifications())
                 }}
               >
                 <span>Logout</span>

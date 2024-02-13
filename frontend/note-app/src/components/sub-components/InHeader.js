@@ -13,6 +13,15 @@ import {
   selectIsProfileLocation,
   setIsProfileLocation,
 } from '../../features/profiles/profilesSlice'
+// chats
+import {
+  setChatDir,
+} from '../../features/chats/chatsSlice'
+
+// homeSlice
+import {
+  setMainDir,
+} from '../../features/home/homeSlice'
 
 // sub-users
 // GetUsername
@@ -20,6 +29,9 @@ import GetUsername from '../../features/users/sub-users/GetUsername'
 // sub-profiles
 // GetProfile
 import GetProfile from '../../features/profiles/sub-profiles/GetProfile'
+// sub-chats
+// notification btns
+import NotificationBtns from '../../features/chats/sub-chats/NotificationBtns'
 // main
 // InHeader
 const InHeader = ({user}) => {
@@ -53,11 +65,14 @@ const InHeader = ({user}) => {
             </span>
             <GetProfile userId={user._id}/>
         </NavLink>
-        <button className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
+        <NotificationBtns />
+        {/* <button className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
           onClick={()=>{
             dispatch(logout())
+            dispatch(setMainDir('NOTES'))
+            dispatch(setChatDir('FRL'))
           }}
-        >logout</button>
+        >logout</button> */}
     </div>
   )
 }

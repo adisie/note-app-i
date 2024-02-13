@@ -31,10 +31,20 @@ import {
   allMyFavorites,
   resetMyFavorites,
 } from '../favorites/favoritesSlice'
+// chat
+import {
+  selectChatDir,
+} from '../chats/chatsSlice'
 // connectionsSlice
 import {
-  allConnections,
+  allPendingConnections,
+  allRequestedConnections,
+  allAcceptedConnections,
   newConnectionEvent,
+  newFriendRequestEvent,
+  allNotifications,
+  newNotificationEvent,
+  connectionRequestedAcceptedEvent,
 } from '../connections/connectionsSlice'
 
 // sub-home
@@ -79,6 +89,9 @@ const Home = () => {
   // states from slice
   // usersSlice
   const user = useSelector(selectUser)
+
+  // chats 
+  const chatDir = useSelector(selectChatDir)
 
   // hooks
   const dispatch = useDispatch()
@@ -148,10 +161,13 @@ const Home = () => {
   },[])
 
   // connections
-  // all connections
+  // all pending and requested, and accepted connections
   useEffect(() => {
     if(user){
-      dispatch(allConnections())
+      dispatch(allPendingConnections())
+      dispatch(allRequestedConnections())
+      dispatch(allAcceptedConnections())
+      dispatch(allNotifications())
     }
   })
 
@@ -161,6 +177,32 @@ const Home = () => {
       dispatch(newConnectionEvent(connection))
     })
   },[])
+
+  // new connection request 
+  useEffect(()=>{
+    SOCKET.on('newFriendRequestEvent',connection=>{
+      dispatch(newFriendRequestEvent(connection))
+    })
+  },[])
+  useEffect(()=>{
+    SOCKET.on('newFriendRequestNotificationEvent',notification => {
+      if(chatDir === 'NOT'){
+        dispatch(newNotificationEvent({...notification,isRead: true}))
+      }else{
+        dispatch(newNotificationEvent(notification))
+      }
+    })
+  },[])
+
+  // connectionRequestedAcceptedEvent
+  useEffect(()=>{
+    SOCKET.on('connectionRequestedAcceptedEvent',connetion => {
+      dispatch(connectionRequestedAcceptedEvent(connetion))
+    })
+  },[])
+
+ 
+
 
   return (
     <div className="flex-grow flex">

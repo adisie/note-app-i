@@ -6,6 +6,10 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const socketio = require('socket.io')
 
+// models
+// notification
+const Notification = require('./models/NotificationsModel')
+
 
 const PORT = process.env.PORT || 5050
 const app = express()
@@ -141,8 +145,24 @@ io.on('connection',socket=>{
     })
 
     // connections
-    socket.on('newConnection',connection=>{
+    socket.on('newConnection',async connection=>{
+        const notification = await Notification.create({senderId: connection.senderId,receiverId: connection.receiverId,isRead: false,flag: 'REQ'})
+        let user = onlineUsers.find(usr => usr.userId === connection.receiverId)
+        if(user){
+            socket.broadcast.to(user.socketId).emit('newFriendRequestEvent',connection)
+            socket.broadcast.to(user.socketId).emit('newFriendRequestNotificationEvent',notification)
+        }
         socket.emit('newConnectionEvent',connection)
+    })
+
+    // accept connection
+    socket.on('acceptConnection',async connection => {
+        const notification = await Notification.create({senderId: connection.receiverId,receiverId: connection.senderId,isRead: false,flag: 'ACC'})
+        let user = onlineUsers.find(usr => usr.userId === connection.senderId)
+        if(user){
+            socket.broadcast.to(user.socketId).emit('connectionRequestedAcceptedEvent',connection)
+            socket.broadcast.to(user.socketId).emit('newFriendRequestNotificationEvent',notification)
+        }
     })
 })
 
@@ -162,6 +182,8 @@ app.use('/api/favorites',require('./routes/favoritesRoutes'))
 app.use('/api/likes',require('./routes/likesRoutes'))
 // connectionsRoutes
 app.use('/api/connections',require('./routes/connectionsRoutes'))
+// notificationsRoutes
+app.use('/api/notifications',require('./routes/notificationsRoutes'))
 
 // public files
 app.use('/public',express.static('public'))

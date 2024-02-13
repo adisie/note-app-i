@@ -11,6 +11,7 @@ import FriendsList from "./sub-chats/FriendsList"
 import ChatBox from "./sub-chats/ChatBox"
 import FindList from "./sub-chats/FindList"
 import RequestsList from "./sub-chats/RequestsList"
+import Notifications from './sub-chats/Notifications'
 // main
 // Chats
 const Chats = () => {
@@ -36,6 +37,10 @@ const Chats = () => {
             chatDir === 'RQL'
             ?
             <RequestsList />
+            :
+            chatDir === 'NOT'
+            ?
+            <Notifications />
             :
             <></>
         }
