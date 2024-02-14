@@ -165,6 +165,19 @@ io.on('connection',socket=>{
         }
     })
 
+    // delete connection
+    socket.on('deleteConnection',connection => {
+        socket.emit('deleteConnectionEvent',connection)
+        let senderUser = onlineUsers.find(usr => usr.userId === connection.senderId)
+        let receiverUser = onlineUsers.find(usr => usr.userId === connection.receiverId)
+        if(senderUser){
+            socket.broadcast.to(senderUser.socketId).emit('deleteConnectionEvent',connection)
+        }
+        if(receiverUser){
+            socket.broadcast.to(receiverUser.socketId).emit('deleteConnectionEvent',connection)
+        }
+    })
+
     // messages
     // new message
     socket.on('newMessage',message => {

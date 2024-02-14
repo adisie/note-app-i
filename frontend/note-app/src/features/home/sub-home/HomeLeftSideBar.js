@@ -63,8 +63,24 @@ const HomeLeftSideBar = () => {
     }
   }
 
+  // home side bar toggler
+  const homeSideBarToggler = () => {
+    let homeSideBar = document.getElementById('home-left-side-bar-id') 
+    let screenShadow = document.getElementById('screen-shadow')
+
+    if(homeSideBar?.classList.contains('left-[-100vw]')){
+      homeSideBar?.classList.remove('left-[-100vw]')
+      homeSideBar?.classList.add('left-0')
+      screenShadow?.classList.remove('hidden')
+    }else {
+      homeSideBar?.classList.add('left-[-100vw]')
+      homeSideBar?.classList.remove('left-0')
+      screenShadow?.classList.add('hidden')
+    }
+  }
+
   return (
-    <div className="min-w-[20%] text-xs text-emerald-700 font-serif">
+    <div className="text-xs text-emerald-700 font-serif bg-white absolute z-50 h-full w-[180px] pr-3 pl-1 left-[-100vw] screen-level-3:relative screen-level-3:min-w-[20%] screen-level-3:left-0" id="home-left-side-bar-id">
       {/* authenticated side bar */}
       <div className="pr-1">
         <ul className="flex flex-col">
@@ -79,6 +95,7 @@ const HomeLeftSideBar = () => {
                 dispatch(setMainDir('NOTES'))
                 dispatch(setChatDir('FRL'))
                 dispatch(setIsChatSelected(null))
+                homeSideBarToggler()
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
@@ -99,6 +116,7 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
                     dispatch(setChatDir('FRL'))
+                    homeSideBarToggler()
                   }}
                 >
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
@@ -125,6 +143,7 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsComment(null))
                     dispatch(setMainDir('CHATS'))
                     dispatch(setChatDir('FRL'))
+                    homeSideBarToggler()
                   }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>
@@ -140,6 +159,7 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsProfileLocation(false))
                     dispatch(setIsComment(null))
                     dispatch(setChatDir('FRL'))
+                    homeSideBarToggler()
                   }}
                 >
                   <IoMdSettings className="text-xl mr-1 opacity-[.75]"/>
@@ -154,6 +174,7 @@ const HomeLeftSideBar = () => {
                   dispatch(setMainDir('NOTES'))
                   dispatch(setChatDir('FRL'))
                   dispatch(resetNotifications())
+                  homeSideBarToggler()
                 }}
               >
                 <span>Logout</span>

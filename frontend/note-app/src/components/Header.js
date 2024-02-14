@@ -47,19 +47,41 @@ const Header = () => {
   // hooks
   const dispatch = useDispatch()
 
+  // home side bar toggler
+  const homeSideBarToggler = () => {
+    let homeSideBar = document.getElementById('home-left-side-bar-id') 
+    let screenShadow = document.getElementById('screen-shadow')
+
+    if(homeSideBar?.classList.contains('left-[-100vw]')){
+      homeSideBar?.classList.remove('left-[-100vw]')
+      homeSideBar?.classList.add('left-0')
+      screenShadow?.classList.remove('hidden')
+    }else {
+      homeSideBar?.classList.add('left-[-100vw]')
+      homeSideBar?.classList.remove('left-0')
+      screenShadow?.classList.add('hidden')
+    }
+  }
+
   return (
     <header className="bg-emerald-700 text-xs text-gray-100 font-serif">
       <div className="max-w-[820px] mx-auto px-3 py-[.35rem] flex items-center justify-between">
         {/* menu and logo */}
         <div className="flex items-center">
           {/* menu icon */}
-          <div className="flex items-center mr-1">
-            <button className="text-xl text-gray-300">
+          <div className="flex items-center mr-1 screen-level-3:hidden">
+            <button className="text-xl text-gray-300" 
+              onClick={()=>{
+                // dispatch(setIsComment(null))
+                // dispatch(setMainDir('NOTES'))
+                homeSideBarToggler()
+              }}
+            >
               <GrMenu />
             </button>
           </div>
           {/* site logo */}
-          <div className="flex items-center">
+          <div className="items-center hidden screen-level-3:flex">
             <NavLink className="flex items-center text-xl text-gray-400 font-black" to={"/"} 
               onClick={()=>{
                 dispatch(setIsComment(null))

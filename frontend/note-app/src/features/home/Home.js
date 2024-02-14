@@ -37,6 +37,7 @@ import {
   allMessages,
   newMessageEvent,
   deleteMessageEvent,
+  setChatDir,
 } from '../chats/chatsSlice'
 // connectionsSlice
 import {
@@ -48,6 +49,8 @@ import {
   allNotifications,
   newNotificationEvent,
   connectionRequestedAcceptedEvent,
+  deleteConnectionEvent,
+  setIsConnectionId,
 } from '../connections/connectionsSlice'
 
 // sub-home
@@ -205,6 +208,15 @@ const Home = () => {
     })
   },[])
 
+  // delete connection
+  useEffect(()=>{
+    SOCKET.on('deleteConnectionEvent',connection=>{
+      dispatch(setIsConnectionId(null))
+      dispatch(setChatDir('FRL'))
+      dispatch(deleteConnectionEvent(connection))
+    })
+  },[])
+
   // new message 
   useEffect(()=>{
     SOCKET.on('newMessageEvent',message=>{
@@ -220,7 +232,7 @@ const Home = () => {
 
   return (
     <div className="flex-grow flex">
-        <div className="flex-grow max-w-[820px] mx-auto px-3 flex">
+        <div className="flex-grow max-w-[820px] mx-auto px-3 flex relative">
             <HomeLeftSideBar />
             <Routes>
                 <Route index element = {<Notes />} />
@@ -237,6 +249,7 @@ const Home = () => {
                 </Route>
             </Routes>
         </div>
+        <div className='w-screen h-screen bg-black bg-opacity-[.5] fixed left-0 top-0 z-30 screen-level-3:hidden hidden' id='screen-shadow'></div>
     </div>
   )
 }

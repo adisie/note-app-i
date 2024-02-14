@@ -14,7 +14,7 @@ const OutHeader = () => {
     const dispatch = useDispatch()
 
   return (
-    <div>
+    <div className='flex items-center'>
         <NavLink
             className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
             to={"/users"} 
@@ -23,7 +23,7 @@ const OutHeader = () => {
             }}
         >Login</NavLink>
         <NavLink 
-            className="border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
+            className="hidden screen-level-3:flex border border-gray-300 rounded-sm px-3 py-[.175rem] ml-3 transition-all ease-in-out duration-300 hover:text-emerald-700 hover:bg-gray-300" 
             to={"/users"} 
             onClick={()=>{
                 dispatch(setUsersFlag('SIGNUP'))

@@ -12,6 +12,7 @@ const initialState = {
     isConnectionPending: false,
     isConnectionAccepting: false,
     isNotificationReading: false,
+    isConnectionDeleting: false,
     connections: [],
     pendingConnections: [],
     requestedConnections: [],
@@ -63,6 +64,16 @@ export const newConnection = createAsyncThunk('connections/newConnection', async
 export const acceptConnection = createAsyncThunk('connections/acceptConnection',async connectionId => {
     try{
         const response = await axios.put(`/api/connections/accept-connection/${connectionId}`)
+        return response.data
+    }catch(err){
+        return err.response.data
+    }
+})
+
+// delete connection
+export const deleteConnection = createAsyncThunk('connections/deleteConnection',async _id => {
+    try{
+        const response = await axios.delete(`/api/connections/delete-connection/${_id}`)
         return response.data
     }catch(err){
         return err.response.data
@@ -149,6 +160,9 @@ const connectionsSlice = createSlice({
 
             state.acceptedConnections = filteredConnections 
         },
+        deleteConnectionEvent: (state,action) => {
+            state.acceptedConnections = state.acceptedConnections.filter(connection => connection._id !== action.payload._id)
+        },
     },
 
     extraReducers: builder => {
@@ -215,6 +229,24 @@ const connectionsSlice = createSlice({
                 state.isConnectionAccepting = false 
                 state.isConnectionId = null 
             })
+            // delete connection
+            // pending
+            .addCase(deleteConnection.pending,state=>{
+                state.isConnectionDeleting = true
+            })
+            // fulfilled
+            .addCase(deleteConnection.fulfilled,(state,action)=>{
+                state.isConnectionDeleting = false 
+                state.isConnectionId = null 
+                if(action.payload.connection){
+                    SOCKET.emit('deleteConnection',action.payload.connection)
+                }
+            })
+            // rejected
+            .addCase(deleteConnection.rejected,state=>{
+                state.isConnectionDeleting = false 
+                state.isConnectionId = null 
+            })
 
             // notifications
             // all notifications
@@ -252,6 +284,7 @@ export const {
     resetNotifications,
     newNotificationEvent,
     connectionRequestedAcceptedEvent,
+    deleteConnectionEvent,
 } = connectionsSlice.actions
 
 // selectors
@@ -273,5 +306,7 @@ export const selectRequestedConnections = state => state.connections.requestedCo
 export const selectNotifications = state => state.connections.notifications 
 // isNotification readng
 export const selectIsNotificationReading = state => state.connections.isNotificationReading
+// isConnectionDeleting
+export const selectIsConnectionDeleting = state => state.connections.isConnectionDeleting 
 // exports
 export default connectionsSlice.reducer

@@ -1,6 +1,7 @@
 
 // models
 const Connection = require('../models/connectionsModel')
+const Message = require('../models/messagesModel')
 
 // all connections
 const allConnections = async (req,res) => {
@@ -103,8 +104,17 @@ const allAcceptedConnections = async (req,res) => {
 }
 
 // delete connection
-const deleteConnection = (req,res) => {
-    res.status(200).json('delete connection')
+const deleteConnection = async (req,res) => {
+    try{
+        await Message.deleteMany({connectionId: req.params._id.toString()}) 
+        const connection = await Connection.findById(req.params._id)
+        await Connection.findByIdAndDelete(req.params._id)
+        res.status(200).json({connection})
+    }catch(err){
+        res.status(200).json({
+            error: 'delete connection error'
+        })
+    }
 }
 
 // exports
