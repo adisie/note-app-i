@@ -34,6 +34,9 @@ import {
 // chat
 import {
   selectChatDir,
+  allMessages,
+  newMessageEvent,
+  deleteMessageEvent,
 } from '../chats/chatsSlice'
 // connectionsSlice
 import {
@@ -119,6 +122,7 @@ const Home = () => {
   useEffect(()=>{
     if(user){
       dispatch(allMyFavorites())
+      dispatch(allMessages())
     }
   })
   // all profiles
@@ -201,8 +205,18 @@ const Home = () => {
     })
   },[])
 
- 
-
+  // new message 
+  useEffect(()=>{
+    SOCKET.on('newMessageEvent',message=>{
+      dispatch(newMessageEvent(message))
+    })
+  })
+  // delete message
+  useEffect(()=>{
+    SOCKET.on('deleteMessageEvent',message => {
+      dispatch(deleteMessageEvent(message))
+    })
+  })
 
   return (
     <div className="flex-grow flex">

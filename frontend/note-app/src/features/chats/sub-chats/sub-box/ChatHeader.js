@@ -44,9 +44,6 @@ const ChatHeader = () => {
         </div>
         <IsOnline userId={userId} />
         {/* actions */}
-        <div>
-            <span>typing</span>
-        </div>
     </div>
   )
 }

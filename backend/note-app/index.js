@@ -164,6 +164,35 @@ io.on('connection',socket=>{
             socket.broadcast.to(user.socketId).emit('newFriendRequestNotificationEvent',notification)
         }
     })
+
+    // messages
+    // new message
+    socket.on('newMessage',message => {
+        let senderUser = onlineUsers.find(usr => usr.userId.toString() === message.senderId.toString())
+        let receiverUser = onlineUsers.find(usr => usr.userId.toString() === message.receiverId.toString())  
+        
+        if(senderUser){
+            socket.emit('newMessageEvent',message)
+        }
+        if(receiverUser){
+            socket.broadcast.to(receiverUser.socketId).emit('newMessageEvent',message)
+        }
+    })
+
+    // delete message
+    socket.on('deleteMessage',message => {
+        let senderUser = onlineUsers.find(usr => usr.userId.toString() === message.senderId.toString())
+        let receiverUser = onlineUsers.find(usr => usr.userId.toString() === message.receiverId.toString())
+        
+        if(senderUser){
+            socket.emit('deleteMessageEvent',message)
+            socket.broadcast.to(senderUser.socketId).emit('deleteMessageEvent',message)
+        }
+        if(receiverUser){
+            socket.broadcast.to(receiverUser.socketId).emit('deleteMessageEvent',message)
+        }
+        
+    })
 })
 
 
@@ -184,6 +213,8 @@ app.use('/api/likes',require('./routes/likesRoutes'))
 app.use('/api/connections',require('./routes/connectionsRoutes'))
 // notificationsRoutes
 app.use('/api/notifications',require('./routes/notificationsRoutes'))
+// messagesRoutes
+app.use('/api/messages',require('./routes/messagesRoutes'))
 
 // public files
 app.use('/public',express.static('public'))
