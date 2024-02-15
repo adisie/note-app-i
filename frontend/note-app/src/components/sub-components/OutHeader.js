@@ -5,7 +5,12 @@ import {useDispatch} from 'react-redux'
 // usersSlice
 import {
     setUsersFlag,
+    setIsSearch,
 } from '../../features/users/usersSlice'
+// home 
+import {
+    setMainDir,
+} from '../../features/home/homeSlice'
 
 // main
 // OutHeader
@@ -20,6 +25,8 @@ const OutHeader = () => {
             to={"/users"} 
             onClick={()=>{
                 dispatch(setUsersFlag("LOGIN"))
+                dispatch(setIsSearch(''))
+                dispatch(setMainDir(null))
             }}
         >Login</NavLink>
         <NavLink 
@@ -27,6 +34,8 @@ const OutHeader = () => {
             to={"/users"} 
             onClick={()=>{
                 dispatch(setUsersFlag('SIGNUP'))
+                dispatch(setIsSearch(''))
+                dispatch(setMainDir(null))
             }}
             >Signup</NavLink>
     </div>

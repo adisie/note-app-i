@@ -5,6 +5,7 @@ import {useSelector,useDispatch} from 'react-redux'
 // usersSlice
 import {
   logout,
+  setIsSearch,
 } from '../../features/users/usersSlice'
 // profilesSlice
 import {
@@ -50,6 +51,7 @@ const InHeader = ({user}) => {
           className="flex items-center" 
           to={isProfileLocation ? "/" : "/profiles"} 
           onClick={()=>{
+            dispatch(setIsSearch(''))
             if(isProfileLocation){
               dispatch(setIsProfileLocation(false))
               dispatch(setIsProfileOwner(false))

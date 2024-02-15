@@ -11,6 +11,10 @@ import {
   selectUser,
   selectErrors,
 } from '../usersSlice'
+// home
+import {
+  setMainDir,
+} from '../../home/homeSlice'
 
 // sub-users
 // UsersSpinner
@@ -264,6 +268,7 @@ const Signup = () => {
             <span className="hover:underline cursor-pointer opacity-[.75]" 
               onClick={()=>{
                 dispatch(setUsersFlag('LOGIN'))
+                dispatch(setMainDir(null))
               }}
             >have an account?</span>
           </div>

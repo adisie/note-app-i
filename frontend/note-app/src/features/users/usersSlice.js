@@ -17,6 +17,7 @@ const initialState = {
     isUserPending: false,
     errors: null,
     onlineUsers: [],
+    isSearch: '',
 }
 
 
@@ -99,6 +100,9 @@ const usersSlice = createSlice({
                 }
             })
             state.onlineUsers = filteredUsers
+        },
+        setIsSearch: (state,action) => {
+            state.isSearch = action.payload
         },
     },
     extraReducers: builder => {
@@ -190,6 +194,7 @@ export const {
     setUsersFlag,
     userSignupEvent,
     setOnlineUsers,
+    setIsSearch,
 } = usersSlice.actions
 
 // selectors
@@ -205,5 +210,7 @@ export const selectErrors = state => state.users.errors
 export const selectUser = state => state.users.user 
 // onlineUsers
 export const selectOnlineUsers = state => state.users.onlineUsers 
+// isSearch
+export const selectIsSearch = state => state.users.isSearch
 
 export default usersSlice.reducer

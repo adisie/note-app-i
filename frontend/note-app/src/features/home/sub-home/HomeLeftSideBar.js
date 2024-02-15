@@ -7,6 +7,7 @@ import {
   setUsersFlag,
   selectUser,
   logout,
+  setIsSearch,
 } from '../../users/usersSlice'
 // homeSlice
 import {
@@ -96,6 +97,7 @@ const HomeLeftSideBar = () => {
                 dispatch(setChatDir('FRL'))
                 dispatch(setIsChatSelected(null))
                 homeSideBarToggler()
+                dispatch(setIsSearch(''))
               }}
             >
               <RiQuillPenFill className="text-xl mr-1 opacity-[.75]"/>
@@ -117,6 +119,8 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsComment(null))
                     dispatch(setChatDir('FRL'))
                     homeSideBarToggler()
+                    dispatch(setIsSearch(''))
+                    dispatch(setMainDir(null))
                   }}
                 >
                   <MdOutlineFavorite className="text-xl mr-1 opacity-[.75]"/>
@@ -144,6 +148,7 @@ const HomeLeftSideBar = () => {
                     dispatch(setMainDir('CHATS'))
                     dispatch(setChatDir('FRL'))
                     homeSideBarToggler()
+                    dispatch(setIsSearch(''))
                   }}
                 >
                   <IoLogoWechat className="text-xl mr-1 opacity-[.75]"/>
@@ -160,6 +165,8 @@ const HomeLeftSideBar = () => {
                     dispatch(setIsComment(null))
                     dispatch(setChatDir('FRL'))
                     homeSideBarToggler()
+                    dispatch(setIsSearch(''))
+                    dispatch(setMainDir(null))
                   }}
                 >
                   <IoMdSettings className="text-xl mr-1 opacity-[.75]"/>
@@ -175,6 +182,7 @@ const HomeLeftSideBar = () => {
                   dispatch(setChatDir('FRL'))
                   dispatch(resetNotifications())
                   homeSideBarToggler()
+                  dispatch(setIsSearch(''))
                 }}
               >
                 <span>Logout</span>
@@ -186,6 +194,9 @@ const HomeLeftSideBar = () => {
               to={"/users"} 
               onClick={()=>{
                 dispatch(setUsersFlag('LOGIN'))
+                homeSideBarToggler()
+                dispatch(setIsSearch(''))
+                dispatch(setMainDir(null))
               }}
             
             >

@@ -11,6 +11,10 @@ import {
   selectErrors,
   selectUser,
 } from '../usersSlice'
+// home
+import {
+  setMainDir,
+} from '../../home/homeSlice'
 
 // sub-users
 // UsersSpinner
@@ -40,6 +44,7 @@ const Login = () => {
   useEffect(()=>{
     if(user){
       navigate('/')
+      dispatch(setMainDir('NOTES'))
     }
   },[user])
 
@@ -152,6 +157,7 @@ const Login = () => {
             <span className="hover:underline cursor-pointer opacity-[.75]" 
               onClick={()=>{
                 dispatch(setUsersFlag('SIGNUP'))
+                dispatch(setMainDir(null))
               }}
             >have no account?</span>
           </div>

@@ -20,7 +20,7 @@ const PrivateRoutes = () => {
             ?
             <Outlet />
             :
-            <Navigate to={'/users'} />
+            <Navigate to={'/'} />
         }
     </>
   )
