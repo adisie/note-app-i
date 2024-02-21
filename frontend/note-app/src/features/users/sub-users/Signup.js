@@ -10,6 +10,7 @@ import {
   signup,
   selectUser,
   selectErrors,
+  resetErrors,
 } from '../usersSlice'
 // home
 import {
@@ -269,6 +270,7 @@ const Signup = () => {
               onClick={()=>{
                 dispatch(setUsersFlag('LOGIN'))
                 dispatch(setMainDir(null))
+                dispatch(resetErrors())
               }}
             >have an account?</span>
           </div>

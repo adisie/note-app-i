@@ -8,6 +8,7 @@ import {
   selectUser,
   logout,
   setIsSearch,
+  resetErrors,
 } from '../../users/usersSlice'
 // homeSlice
 import {
@@ -197,6 +198,7 @@ const HomeLeftSideBar = () => {
                 homeSideBarToggler()
                 dispatch(setIsSearch(''))
                 dispatch(setMainDir(null))
+                dispatch(resetErrors())
               }}
             
             >

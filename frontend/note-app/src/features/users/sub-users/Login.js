@@ -10,6 +10,7 @@ import {
   selectIsUserPending,
   selectErrors,
   selectUser,
+  resetErrors,
 } from '../usersSlice'
 // home
 import {
@@ -158,6 +159,7 @@ const Login = () => {
               onClick={()=>{
                 dispatch(setUsersFlag('SIGNUP'))
                 dispatch(setMainDir(null))
+                dispatch(resetErrors())
               }}
             >have no account?</span>
           </div>

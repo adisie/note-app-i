@@ -104,6 +104,9 @@ const usersSlice = createSlice({
         setIsSearch: (state,action) => {
             state.isSearch = action.payload
         },
+        resetErrors: state => {
+            state.errors = null
+        },
     },
     extraReducers: builder => {
         builder
@@ -195,6 +198,7 @@ export const {
     userSignupEvent,
     setOnlineUsers,
     setIsSearch,
+    resetErrors,
 } = usersSlice.actions
 
 // selectors
